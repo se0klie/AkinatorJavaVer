@@ -95,7 +95,7 @@ public class SearchTree<E> {
                 String yesQuestion = questions.poll();
                 Node yesNode = new Node(yesQuestion);
                 currentNode.setYes(new SearchTree(yesNode));
-                if (!(yesQuestion.compareTo("ANIMAL") == 0) || !(yesQuestion.compareTo("X")==0)) {
+                if (yesQuestion.compareTo("ANIMAL") != 0) {
                     queue.add(yesNode);
                 }
             }
@@ -105,7 +105,7 @@ public class SearchTree<E> {
                 String noQuestion = questions.poll();
                 Node noNode = new Node(noQuestion);
                 currentNode.setNo(new SearchTree(noNode));
-                if (!(noQuestion.compareTo("ANIMAL") == 0)|| !(noQuestion.compareTo("X")==0)) {
+                if (noQuestion.compareTo("ANIMAL") != 0) {
                     queue.add(noNode);
                 }
             }
