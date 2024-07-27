@@ -5,7 +5,9 @@
 package com.edu.espol.proyecto2ped;
 
 import ClassLists.SearchTree;
+import static com.edu.espol.proyecto2ped.MainPageController.answers;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +26,18 @@ public class GameFacade {
             }
         }
         return null;
+    }
+    
+    public List<String> findListAnimals(Map<String,List<String>> answers,List<String> userAnswers){
+        //Si no hay coincidencias exactas, hay distintos animales que podrían ser de acuerdo a la pregunta ( no se si me expliqué)
+        List<String> possibleAnimals = new LinkedList<>();
+        Iterator<Map.Entry<String,List<String>>> iterator = answers.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String,List<String>> mapResult_2 = iterator.next();
+            if(mapResult_2.getValue().containsAll(userAnswers)){
+                possibleAnimals.add(mapResult_2.getKey());
+            }
+        }
+        return possibleAnimals;
     }
 }
