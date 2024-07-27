@@ -8,6 +8,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 /**
@@ -36,11 +38,12 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    public static void main(String[] args) {
-        Queue<String> ques = FileControl.readLinesFromFile("questions.txt");
-        //SearchTree<String> tree = new SearchTree<String>().buildQuestionTree(ques);
-        
-        //tree.recorrerPreorden();
+    public static void main(String[] args) throws IOException {
+        Queue<String> ques = FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
+        SearchTree<String> tree = new SearchTree<String>().buildQuestionTree(ques);
+        Map<String,List<String>> answers = FileControl.readAnswersFromZip("Archive.zip","answersDATA.txt");
+        tree.buildAnswersTree(answers);
+        tree.recorrerPreorden();
         launch();
     }
 

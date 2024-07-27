@@ -2,6 +2,7 @@ package com.edu.espol.proyecto2ped;
 
 
 import ClassLists.FileControl;
+import static ClassLists.FileControl.*;
 import ClassLists.Node;
 import ClassLists.SearchTree;
 import java.io.IOException;
@@ -40,18 +41,29 @@ public class MainPageController implements Initializable{
     private int maxQuestions;
     private List<String> playerAnswers = new LinkedList<>(); //Sirve para guardar todas las respuestas del usuario
 
+    private GameFacade game = new GameFacade();
+    public static Queue<String> queueQuestions = FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
+    public static Map<String,List<String>> answers = null;
+        
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        startGame();
+        try {
+            answers = FileControl.readAnswersFromZip("Archive.zip","answersDATA.txt");
+            startGame();
+        } catch (IOException ex) {
+            System.out.println("Couldn't start the game.");
+            ex.printStackTrace();
+        }
  
     }
-        public void startGame() {
+        public void startGame() throws IOException {
         // Obtener el "banco" de preguntas
-        Queue<String> queueQuestions = FileControl.readLinesFromFile("questions.txt");
+        
         if (!queueQuestions.isEmpty()) {
             // Crear el árbol de preguntas
             questionTree = new SearchTree<>();
             questionTree = questionTree.buildQuestionTree(queueQuestions);
+            questionTree.buildAnswersTree(answers);
             // Obtener la pregunta actual
             currentNode = questionTree.getRoot();
             // Configurar el número máximo de preguntas
@@ -69,6 +81,7 @@ public class MainPageController implements Initializable{
     //METODO PARA MOSTRAR LAS PREGUNTAS
     private void showQuestion() {
         if(currentNode!=null && actualNumQues<maxQuestions){ //VALIDACION DE QUE NO SEA NULL Y QUE EL NUMERO ACTUAL DE LA PREGUNTA NO SOBREPASE EL NUMERO INGREASDO DEL USUARIO
+            
             quesLabel.setText(currentNode.getString());
             numberQuesLabel.setText("Pregunta #" + (actualNumQues + 1));
         }
@@ -84,7 +97,12 @@ public class MainPageController implements Initializable{
     //Metodo para avanzar de pregunta 
     @FXML
     private void yesButtonQues(ActionEvent event) {
-        playerAnswers.add("yes");
+        playerAnswers.add("si");
+        
+        if(game.findAnimalFromUsersAnswers(answers, playerAnswers)!=null){
+            results();
+            
+        }
         if(currentNode.getYes()!=null){
             currentNode=currentNode.getYes().getRoot();
             actualNumQues++;
@@ -99,6 +117,10 @@ public class MainPageController implements Initializable{
     @FXML
     private void noButtonQues(ActionEvent event) {
         playerAnswers.add("no");
+        if(game.findAnimalFromUsersAnswers(answers, playerAnswers)!=null){
+            results();
+            
+        }
         if(currentNode.getNo()!=null){
             
             currentNode=currentNode.getNo().getRoot();
@@ -111,56 +133,45 @@ public class MainPageController implements Initializable{
     }
     
     private void results(){
-        //Cargo las respuestas usando un map
-        try{
-            Map<String,List<String>> answerMap = FileControl.readAnswersFromFile("answers.txt");
-            // conf, un iterator para hacer más eficiente el programa xD
-                    // Imprimir para depuración
-            System.out.println("Respuestas del jugador: " + playerAnswers);
-            System.out.println("Respuestas en el archivo:");
-            for (Map.Entry<String, List<String>> entry : answerMap.entrySet()) {
-                System.out.println(entry.getKey() + " -> " + entry.getValue());
-            }
-            
-            //Busco las coincidencias exactas mediante el mapa (es decir, cuando es si si si)
-            Iterator<Map.Entry<String,List<String>>> iterator = answerMap.entrySet().iterator();
-            while(iterator.hasNext()){
-                Map.Entry<String,List<String>> mapResult = iterator.next();
-                if(mapResult.getValue().equals(playerAnswers)){
-                    quesLabel.setText("He adivinado a tu animal, estás pensando en: "+ mapResult.getKey());
-                    return;
-                }
-            }
-            
-            //Si no hay coincidencias exactas, hay distintos animales que podrían ser de acuerdo a la pregunta ( no se si me expliqué)
-            List<String> possibleAnimals = new LinkedList<>();
-            iterator = answerMap.entrySet().iterator();
-            while(iterator.hasNext()){
-                Map.Entry<String,List<String>> mapResult_2 = iterator.next();
-                if(mapResult_2.getValue().containsAll(playerAnswers)){
-                    possibleAnimals.add(mapResult_2.getKey());
-                }
-            }
-            if(possibleAnimals.isEmpty()){
-                System.out.println("Respuestas del jugador: " + playerAnswers);
-                quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
-            }
-            else if(possibleAnimals.size()==1){
-                quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
-            }
-            else{
-                quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
-            }
-            
+        // conf, un iterator para hacer más eficiente el programa xD
+        // Imprimir para depuración
+        System.out.println("Respuestas del jugador: " + playerAnswers);
+        System.out.println("Respuestas en el archivo:");
+        for (Map.Entry<String, List<String>> entry : answers.entrySet()) {
+            System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
-        catch(IOException e){
-            quesLabel.setText("Error al cargar las respuestas");
-        }
+        System.out.println(game.findAnimalFromUsersAnswers(answers, playerAnswers));
+//        //Busco las coincidencias exactas mediante el mapa (es decir, cuando es si si si)
+//        Iterator<Map.Entry<String,List<String>>> iterator = answers.entrySet().iterator();
+//        while(iterator.hasNext()){
+//            Map.Entry<String,List<String>> mapResult = iterator.next();
+//            if(mapResult.getValue().equals(playerAnswers)){
+//                quesLabel.setText("He adivinado a tu animal, estás pensando en: "+ mapResult.getKey());
+//                return;
+//            }
+//        }
+//        //Si no hay coincidencias exactas, hay distintos animales que podrían ser de acuerdo a la pregunta ( no se si me expliqué)
+//        List<String> possibleAnimals = new LinkedList<>();
+//        iterator = answers.entrySet().iterator();
+//        while(iterator.hasNext()){
+//            Map.Entry<String,List<String>> mapResult_2 = iterator.next();
+//            if(mapResult_2.getValue().containsAll(playerAnswers)){
+//                possibleAnimals.add(mapResult_2.getKey());
+//            }
+//        }
+//        if(possibleAnimals.isEmpty()){
+//            System.out.println("Respuestas del jugador: " + playerAnswers);
+//            quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
+//        }
+//        else if(possibleAnimals.size()==1){
+//            quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
+//        }
+//        else{
+//            quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
+//        }
         
         
         
+    
     }
-    
-    
-    
 }

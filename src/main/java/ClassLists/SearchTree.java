@@ -2,7 +2,11 @@
 
 package ClassLists;
 
+import static com.edu.espol.proyecto2ped.MainPageController.answers;
+import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 import java.util.Stack;
 
@@ -77,6 +81,7 @@ public class SearchTree<E> {
         // Initialize the root node
         Node root = new Node(questions.poll());
         SearchTree treeFinal = new SearchTree<>();
+        
         Node mainNode = new Node(questions.poll());
         Queue<Node> queue = new LinkedList<>();
         queue.add(mainNode);
@@ -90,7 +95,7 @@ public class SearchTree<E> {
                 String yesQuestion = questions.poll();
                 Node yesNode = new Node(yesQuestion);
                 currentNode.setYes(new SearchTree(yesNode));
-                if (!yesQuestion.equals("ANIMAL") && !yesQuestion.equals("X")) {
+                if (!(yesQuestion.compareTo("ANIMAL") == 0) || !(yesQuestion.compareTo("X")==0)) {
                     queue.add(yesNode);
                 }
             }
@@ -100,7 +105,7 @@ public class SearchTree<E> {
                 String noQuestion = questions.poll();
                 Node noNode = new Node(noQuestion);
                 currentNode.setNo(new SearchTree(noNode));
-                if (!noQuestion.equals("ANIMAL") && !noQuestion.equals("X")) {
+                if (!(noQuestion.compareTo("ANIMAL") == 0)|| !(noQuestion.compareTo("X")==0)) {
                     queue.add(noNode);
                 }
             }
@@ -111,4 +116,39 @@ public class SearchTree<E> {
         
         return treeFinal;
     }    
+    
+    public void nodeIterator(String animal, List<String> answers){
+        Iterator<String> iterator = answers.iterator();
+        SearchTree tree = this;
+        Node animalSet = null;
+        while(iterator.hasNext()){
+            String str = iterator.next();
+            if(str.compareTo("si")==0){
+                if(tree.root.getYes()==null){
+                    animalSet = new Node(animal);
+                    tree.root.setYes(new SearchTree<>(animalSet));
+                } else {
+                    tree = tree.root.getYes();
+                }
+            } else if(str.compareTo("no")==0){
+                if(tree.root.getNo()==null){
+                    animalSet = new Node(animal);
+                    tree.root.setNo(new SearchTree<>(animalSet));
+                } else {
+                    tree = tree.root.getNo();
+                }
+            }
+        }
+    }
+    
+    
+    public void buildAnswersTree(Map<String,List<String>> mapAnswers){
+        
+        Iterator<Map.Entry<String,List<String>>> iterator = mapAnswers.entrySet().iterator();
+        while(iterator.hasNext()){
+            Map.Entry<String,List<String>> mapResult = iterator.next();
+            nodeIterator(mapResult.getKey(),mapResult.getValue());
+        }
+        
+    }
 }
