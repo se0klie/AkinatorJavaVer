@@ -140,35 +140,25 @@ public class MainPageController implements Initializable{
         for (Map.Entry<String, List<String>> entry : answers.entrySet()) {
             System.out.println(entry.getKey() + " -> " + entry.getValue());
         }
-        System.out.println(game.findAnimalFromUsersAnswers(answers, playerAnswers));
-//        //Busco las coincidencias exactas mediante el mapa (es decir, cuando es si si si)
-//        Iterator<Map.Entry<String,List<String>>> iterator = answers.entrySet().iterator();
-//        while(iterator.hasNext()){
-//            Map.Entry<String,List<String>> mapResult = iterator.next();
-//            if(mapResult.getValue().equals(playerAnswers)){
-//                quesLabel.setText("He adivinado a tu animal, estás pensando en: "+ mapResult.getKey());
-//                return;
-//            }
-//        }
-//        //Si no hay coincidencias exactas, hay distintos animales que podrían ser de acuerdo a la pregunta ( no se si me expliqué)
-//        List<String> possibleAnimals = new LinkedList<>();
-//        iterator = answers.entrySet().iterator();
-//        while(iterator.hasNext()){
-//            Map.Entry<String,List<String>> mapResult_2 = iterator.next();
-//            if(mapResult_2.getValue().containsAll(playerAnswers)){
-//                possibleAnimals.add(mapResult_2.getKey());
-//            }
-//        }
-//        if(possibleAnimals.isEmpty()){
-//            System.out.println("Respuestas del jugador: " + playerAnswers);
-//            quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
-//        }
-//        else if(possibleAnimals.size()==1){
-//            quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
-//        }
-//        else{
-//            quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
-//        }
+        
+        String animal = game.findAnimalFromUsersAnswers(answers, playerAnswers);
+        if(animal!=null){
+            quesLabel.setText(""+animal);
+            System.out.println(animal);
+            //MOSTRAR EN LABEL Y NO DEJAR QUE EL USUARIO SIGA AVANZANDO EN EL JUEGO.
+        }
+        
+        List<String> possibleAnimals = game.findListAnimals(answers, playerAnswers);
+        if(possibleAnimals.isEmpty()){
+            System.out.println("Respuestas del jugador: " + playerAnswers);
+            quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
+        }
+        else if(possibleAnimals.size()==1){
+            quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
+        }
+        else{
+            quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
+        }
         
         
         

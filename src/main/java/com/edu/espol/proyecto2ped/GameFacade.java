@@ -16,6 +16,7 @@ import java.util.Map;
  * @author hailiejimenez
  */
 public class GameFacade {
+    //Game facade creada para mostrar menos metodos en el controller (busca abstraer a una clase de detalles innecesarios para ella) >>>> facade: pattern design
     
     public String findAnimalFromUsersAnswers(Map<String,List<String>> answerMap, List<String> userAnswers){
         Iterator<Map.Entry<String,List<String>>> iterator = answerMap.entrySet().iterator();
