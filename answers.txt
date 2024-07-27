@@ -1,0 +1,23 @@
+Oso sí sí sí
+León sí sí sí
+Ratón sí no sí
+Ballena sí no no
+Caballo sí no sí
+Elefante sí no no
+Vaca sí no sí
+Gato sí no no
+Águila no sí no
+Pato no no sí
+Lechuza no sí no
+Pingüino no sí sí
+Mariposa no no sí
+Mosca no no no
+Escarabajo no no sí
+Grillo no no sí
+Perro sí no no
+Panda sí no sí
+Zebra sí no sí
+Oso Polar sí sí sí
+Lince sí sí sí
+Cebra sí no no
+

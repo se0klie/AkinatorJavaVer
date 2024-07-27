@@ -1,0 +1,10 @@
+¿Es mamífero?
+¿Es carnívoro?
+¿Tiene pelaje?
+¿Es herbívoro?
+¿Tiene pezuñas?
+¿Es común en zoológicos?
+¿Es volador?
+¿Es nocturno?
+¿Puede nadar?
+¿Tiene bigotes?
