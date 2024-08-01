@@ -1,6 +1,7 @@
 com/edu/espol/proyecto2ped/Number.class
 com/edu/espol/proyecto2ped/PrimaryController.class
 com/edu/espol/proyecto2ped/GameFacade.class
+com/edu/espol/proyecto2ped/Printer.class
 com/edu/espol/proyecto2ped/App.class
 module-info.class
 ClassLists/Node.class

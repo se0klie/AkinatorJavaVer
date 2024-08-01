@@ -16,9 +16,13 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 
 
@@ -26,15 +30,29 @@ public class MainPageController implements Initializable{
 
     @FXML
     private ImageView genieImage;
+
+    @FXML
+    private HBox hboxButtons;
+
     @FXML
     private Button noButtoon;
-    @FXML
-    private Label numberQuesLabel;
+
     @FXML
     private Label quesLabel;
+
+    @FXML
+    private VBox vboxDisplay;
+
+    @FXML
+    private VBox vboxQuestions;
+
     @FXML
     private Button yesButton;
     
+    @FXML
+    private Label numberQuesLabel;
+    
+    private Printer printer = new Printer();
     private Node<String> currentNode;
     private SearchTree<String> questionTree;
     private int actualNumQues = 0;
@@ -42,11 +60,14 @@ public class MainPageController implements Initializable{
     private List<String> playerAnswers = new LinkedList<>(); //Sirve para guardar todas las respuestas del usuario
 
     private GameFacade game = new GameFacade();
+    
     public static Queue<String> queueQuestions = FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
     public static Map<String,List<String>> answers = null;
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        initializeQuestionVBox();
+        
         try {
             answers = FileControl.readAnswersFromZip("Archive.zip","answersDATA.txt");
             startGame();
@@ -96,7 +117,7 @@ public class MainPageController implements Initializable{
     
     //Metodo para avanzar de pregunta 
     @FXML
-    private void yesButtonQues(ActionEvent event) {
+    private void yesButtonQues(MouseEvent event) {
         playerAnswers.add("si");
         
         if(game.findAnimalFromUsersAnswers(answers, playerAnswers)!=null){
@@ -115,7 +136,7 @@ public class MainPageController implements Initializable{
     
     //Metodo para avanzar de pregunta 
     @FXML
-    private void noButtonQues(ActionEvent event) {
+    private void noButtonQues(MouseEvent event) {
         playerAnswers.add("no");
         if(game.findAnimalFromUsersAnswers(answers, playerAnswers)!=null){
             results();
@@ -132,24 +153,52 @@ public class MainPageController implements Initializable{
         }
     }
     
+    private void setResultsVBox(String animal){
+        vboxDisplay.getChildren().clear();
+        Label showAnimal = new Label("El animal en el que estás pensando es...");
+        Label animal2 = new Label(animal);
+        HBox buttons = new HBox();
+        Button replay = new Button("Jugar de nuevo");
+        Button exit = new Button("Salir");
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(replay, exit);
+        vboxDisplay.getChildren().addAll(showAnimal,animal2,buttons);
+    }
+    
+    private void initializeQuestionVBox(){
+        vboxDisplay.getChildren().clear();
+        numberQuesLabel =  new Label();
+        quesLabel = new Label();
+        yesButton = new Button("Sí");
+        yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
+            yesButtonQues(event);
+        });
+        noButtoon = new Button("No");
+        noButtoon.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
+            noButtonQues(event);
+        });
+        vboxQuestions.getChildren().addAll(numberQuesLabel,quesLabel);
+        hboxButtons.setAlignment(Pos.CENTER);
+        hboxButtons.getChildren().addAll(yesButton, noButtoon);
+        vboxDisplay.getChildren().addAll(vboxQuestions, hboxButtons);
+        
+    }
+    
     private void results(){
-        // conf, un iterator para hacer más eficiente el programa xD
-        // Imprimir para depuración
+        //debugging
         System.out.println("Respuestas del jugador: " + playerAnswers);
         System.out.println("Respuestas en el archivo:");
-        for (Map.Entry<String, List<String>> entry : answers.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
-        }
+        printer.printMap(answers);
         
         String animal = game.findAnimalFromUsersAnswers(answers, playerAnswers);
-        if(animal!=null){
-            quesLabel.setText(""+animal);
-            System.out.println(animal);
-            //MOSTRAR EN LABEL Y NO DEJAR QUE EL USUARIO SIGA AVANZANDO EN EL JUEGO.
-        }
-        
         List<String> possibleAnimals = game.findListAnimals(answers, playerAnswers);
-        if(possibleAnimals.isEmpty()){
+        
+        if(animal!=null){
+            
+            setResultsVBox(animal);
+            System.out.println(animal);
+            
+        } else if(possibleAnimals.isEmpty() && animal!=null){
             System.out.println("Respuestas del jugador: " + playerAnswers);
             quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
         }
@@ -159,9 +208,6 @@ public class MainPageController implements Initializable{
         else{
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
         }
-        
-        
-        
-    
     }
 }
+

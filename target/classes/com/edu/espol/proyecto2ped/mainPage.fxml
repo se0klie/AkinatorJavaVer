@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,18 +14,10 @@
       <AnchorPane layoutX="84.0" layoutY="152.0" prefHeight="287.0" prefWidth="665.0">
          <children>
             <ImageView fx:id="genieImage" fitHeight="289.0" fitWidth="242.0" layoutX="-10.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="15.0" />
-            <VBox alignment="CENTER" layoutX="265.0" layoutY="48.0" prefHeight="204.0" prefWidth="357.0" spacing="10.0" AnchorPane.leftAnchor="265.0">
+            <VBox fx:id="vboxDisplay" alignment="CENTER" layoutX="265.0" layoutY="48.0" prefHeight="204.0" prefWidth="357.0" spacing="10.0" AnchorPane.leftAnchor="265.0">
                <children>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+                  <VBox fx:id="vboxQuestions" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label fx:id="numberQuesLabel" prefHeight="71.0" prefWidth="167.0" text="Pregunta #">
-                           <VBox.margin>
-                              <Insets left="15.0" />
-                           </VBox.margin>
-                           <font>
-                              <Font name="Al Bayan Bold" size="20.0" />
-                           </font>
-                        </Label>
                         <Label fx:id="quesLabel" alignment="TOP_LEFT" prefHeight="122.0" prefWidth="372.0">
                            <VBox.margin>
                               <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
@@ -37,12 +28,7 @@
                         </Label>
                      </children>
                   </VBox>
-                  <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-                     <children>
-                        <Button fx:id="yesButton" mnemonicParsing="false" onAction="#yesButtonQues" prefHeight="31.0" prefWidth="171.0" text="Sí" />
-                        <Button fx:id="noButtoon" mnemonicParsing="false" onAction="#noButtonQues" prefHeight="31.0" prefWidth="171.0" text="No" />
-                     </children>
-                  </HBox>
+                  <HBox fx:id="hboxButtons" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0" />
                </children>
             </VBox>
          </children>
