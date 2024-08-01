@@ -1,0 +1,10 @@
+@charset "UTF-8";
+/* CSS Document */
+.buttons {
+	-fx-background-color: #F2DB94;
+	-fx-text-fill: #414C5C; /* Texto blanco */
+    -fx-padding: 20px;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+

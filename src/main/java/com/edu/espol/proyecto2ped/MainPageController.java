@@ -2,23 +2,22 @@ package com.edu.espol.proyecto2ped;
 
 
 import ClassLists.FileControl;
-import static ClassLists.FileControl.*;
 import ClassLists.Node;
 import ClassLists.SearchTree;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
@@ -67,6 +66,8 @@ public class MainPageController implements Initializable{
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeQuestionVBox();
+        Image image = new Image(getClass().getResource("/genie.png").toExternalForm());
+        genieImage.setImage(image);
         
         try {
             answers = FileControl.readAnswersFromZip("Archive.zip","answersDATA.txt");
@@ -161,6 +162,8 @@ public class MainPageController implements Initializable{
         Button replay = new Button("Jugar de nuevo");
         Button exit = new Button("Salir");
         buttons.setAlignment(Pos.CENTER);
+        buttons.setPadding(new Insets(10));
+        buttons.setSpacing(10);
         buttons.getChildren().addAll(replay, exit);
         vboxDisplay.getChildren().addAll(showAnimal,animal2,buttons);
     }
@@ -179,6 +182,7 @@ public class MainPageController implements Initializable{
         });
         vboxQuestions.getChildren().addAll(numberQuesLabel,quesLabel);
         hboxButtons.setAlignment(Pos.CENTER);
+        hboxButtons.setPadding((new Insets(10)));
         hboxButtons.getChildren().addAll(yesButton, noButtoon);
         vboxDisplay.getChildren().addAll(vboxQuestions, hboxButtons);
         
