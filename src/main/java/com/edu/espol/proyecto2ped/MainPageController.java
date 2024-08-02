@@ -59,7 +59,6 @@ public class MainPageController implements Initializable{
     private List<String> playerAnswers = new LinkedList<>(); //Sirve para guardar todas las respuestas del usuario
 
     private GameFacade game = new GameFacade();
-    
     public static Queue<String> queueQuestions = FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
     public static Map<String,List<String>> answers = null;
         
@@ -67,6 +66,7 @@ public class MainPageController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         initializeQuestionVBox();
         Image image = new Image(getClass().getResource("/genie.png").toExternalForm());
+        
         genieImage.setImage(image);
         
         try {
@@ -157,7 +157,9 @@ public class MainPageController implements Initializable{
     private void setResultsVBox(String animal){
         vboxDisplay.getChildren().clear();
         Label showAnimal = new Label("El animal en el que estás pensando es...");
+        showAnimal.getStyleClass().add("vboxQuestions");
         Label animal2 = new Label(animal);
+        animal2.getStyleClass().add("vboxQuestions");
         HBox buttons = new HBox();
         Button replay = new Button("Jugar de nuevo");
         Button exit = new Button("Salir");
@@ -165,21 +167,26 @@ public class MainPageController implements Initializable{
         buttons.setPadding(new Insets(10));
         buttons.setSpacing(10);
         buttons.getChildren().addAll(replay, exit);
+        buttons.getStyleClass().add("vboxQuestions");
         vboxDisplay.getChildren().addAll(showAnimal,animal2,buttons);
     }
     
     private void initializeQuestionVBox(){
         vboxDisplay.getChildren().clear();
+        vboxQuestions.getStyleClass().add("vboxQuestions");
         numberQuesLabel =  new Label();
         quesLabel = new Label();
         yesButton = new Button("Sí");
+        yesButton.getStyleClass().add("yesButton");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
             yesButtonQues(event);
         });
         noButtoon = new Button("No");
+        noButtoon.getStyleClass().add("noButtoon");
         noButtoon.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
             noButtonQues(event);
         });
+        
         vboxQuestions.getChildren().addAll(numberQuesLabel,quesLabel);
         hboxButtons.setAlignment(Pos.CENTER);
         hboxButtons.setPadding((new Insets(10)));

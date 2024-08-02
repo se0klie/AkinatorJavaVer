@@ -54,32 +54,40 @@ public class firstWindowController implements Initializable{
             System.out.println("Error al cargar el logo: " + e.getMessage());
         }
         
+        
     }
     
     
     
     @FXML
-    public void nextButton(MouseEvent event) throws IOException{
-        if(!quesNum.getText().isEmpty()){
-            if(Number.isNumeric(quesNum.getText())){
+    public void nextButton(MouseEvent event) throws IOException {
+        if (!quesNum.getText().isEmpty()) {
+            if (Number.isNumeric(quesNum.getText())) {
                 maxOfQues = Integer.parseInt(quesNum.getText());
-                
+
+                // Cierra la ventana actual
                 Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 currentStage.close();
 
+                // Carga la nueva ventana principal
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("mainPage.fxml"));
                 Parent root = loader.load();
-                Stage stage = new Stage();
-                stage.setTitle("Akinator");
-                stage.setScene(new Scene(root));
-                stage.show();
-                
-                }
+                Scene scene = new Scene(root);
+
+                // Aplica el CSS a la nueva escena
+                scene.getStylesheets().add(getClass().getResource("/com/edu/espol/proyecto2ped/styles.css").toExternalForm());
+
+                Stage newStage = new Stage();
+                newStage.setTitle("Akinator");
+                newStage.setScene(scene);
+                newStage.show();
+            }
         } else {
             Alert a = new Alert(AlertType.ERROR);
             a.setContentText("Ingrese un numero entero.");
             a.show();
         }
     }
+
 }
 
