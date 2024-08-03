@@ -52,7 +52,7 @@
 }
 
 /* Estilo para el fondo del pane */
-.pane,.paneMainPage{
+.pane,.paneMainPage, BorderPane {
     -fx-background-color: #444b59;
 }
 
