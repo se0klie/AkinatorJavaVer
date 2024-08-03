@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="851.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.MainPageController">
+<Pane fx:id="paneMainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="851.0" styleClass="paneMainPage" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.MainPageController">
    <children>
       <AnchorPane layoutX="84.0" layoutY="152.0" prefHeight="287.0" prefWidth="665.0">
          <children>
@@ -36,12 +36,12 @@
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
          </padding>
       </AnchorPane>
-      <Label layoutX="102.0" layoutY="43.0" prefHeight="60.0" prefWidth="255.0" text="Genie's adivinator">
+      <Label layoutX="102.0" layoutY="21.0" prefHeight="60.0" prefWidth="255.0" styleClass="vboxQuestions" stylesheets="@styles.css" text="Genie's adivinator">
          <font>
             <Font name="Al Bayan Bold" size="29.0" />
          </font>
       </Label>
-      <Label layoutX="103.0" layoutY="87.0" prefHeight="77.0" prefWidth="669.0" text="Responde las preguntas y adivinaré el animal en el que piensas..." textAlignment="CENTER" wrapText="true">
+      <Label layoutX="102.0" layoutY="93.0" prefHeight="77.0" prefWidth="669.0" styleClass="vboxQuestions" stylesheets="@styles.css" text="Responde las preguntas y adivinaré el animal en el que piensas..." textAlignment="CENTER" wrapText="true">
          <font>
             <Font name="Al Bayan Plain" size="19.0" />
          </font>

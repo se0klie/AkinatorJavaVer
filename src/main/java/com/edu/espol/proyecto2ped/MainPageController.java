@@ -61,17 +61,17 @@ public class MainPageController implements Initializable{
     private List<String> playerAnswers = new LinkedList<>(); //Sirve para guardar todas las respuestas del usuario
 
     private GameFacade game = new GameFacade();
-    public static Queue<String> queueQuestions = FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
+    public static Queue<String> queueQuestions = null;
     public static Map<String,List<String>> answers = null;
-    @FXML
-    private Pane paneMainPage;
+    
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         initializeQuestionVBox();
         Image image = new Image(getClass().getResource("/genie.png").toExternalForm());
-        
+        queueQuestions = FileControl.readLinesFromZip("Archive.zip","questions.txt");
         genieImage.setImage(image);
+        quesLabel.setWrapText(true);
         
         try {
             answers = FileControl.readAnswersFromZip("Archive.zip","answersDATA.txt");
@@ -106,16 +106,20 @@ public class MainPageController implements Initializable{
 
     //METODO PARA MOSTRAR LAS PREGUNTAS
     private void showQuestion() {
-        if(currentNode!=null && actualNumQues<maxQuestions){ //VALIDACION DE QUE NO SEA NULL Y QUE EL NUMERO ACTUAL DE LA PREGUNTA NO SOBREPASE EL NUMERO INGREASDO DEL USUARIO
+        if(game.validateIfValidNode(currentNode)){
+            if(currentNode!=null && actualNumQues<maxQuestions){ //VALIDACION DE QUE NO SEA NULL Y QUE EL NUMERO ACTUAL DE LA PREGUNTA NO SOBREPASE EL NUMERO INGREASDO DEL USUARIO
             
             quesLabel.setText(currentNode.getString());
             numberQuesLabel.setText("Pregunta #" + (actualNumQues + 1));
         }
-        else{
+            else{
+                results();
+                numberQuesLabel.setText("");
+                yesButton.setDisable(true); // desactivo los botones para que no pueda avanzar
+                noButtoon.setDisable(true);
+            }
+        } else {
             results();
-            numberQuesLabel.setText("");
-            yesButton.setDisable(true); // desactivo los botones para que no pueda avanzar
-            noButtoon.setDisable(true);
         }
     }
    
@@ -162,31 +166,10 @@ public class MainPageController implements Initializable{
         showAnimal.getStyleClass().add("vboxQuestions");
         Label animal2 = new Label(animal);
         animal2.getStyleClass().add("vboxQuestions");
-        HBox buttons = new HBox();
-        Button replay = new Button("Jugar de nuevo");
-        replay.getStyleClass().add("noButtoon");
-        replay.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->{
-            try {
-                goToFirstPage();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        });
-        Button exit = new Button("Salir");
-        exit.getStyleClass().add("noButtoon");
-        exit.addEventHandler(MouseEvent.MOUSE_CLICKED,event->{
-            Scene scene = genieImage.getScene();
-            Stage stage = (Stage) scene.getWindow();
-            stage.close();
-            
-        });
-        buttons.setAlignment(Pos.CENTER);
-        buttons.setPadding(new Insets(10));
-        buttons.setSpacing(10);
-        buttons.getChildren().addAll(replay, exit);
-        buttons.getStyleClass().add("vboxQuestions");
-        vboxDisplay.getChildren().addAll(showAnimal,animal2,buttons);
+        vboxDisplay.getChildren().addAll(showAnimal,animal2);
+        addButtons();
     }
+    
     
     private void initializeQuestionVBox(){
         vboxDisplay.getChildren().clear();
@@ -230,34 +213,65 @@ public class MainPageController implements Initializable{
             e.printStackTrace();
         }
     }
-    
+    public void addButtons(){
+        HBox buttons = new HBox();
+        Button replay = new Button("Jugar de nuevo");
+        replay.getStyleClass().add("noButtoon");
+        replay.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->{
+            try {
+                goToFirstPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
+        Button exit = new Button("Salir");
+        exit.getStyleClass().add("noButtoon");
+        exit.addEventHandler(MouseEvent.MOUSE_CLICKED,event->{
+            Scene scene = genieImage.getScene();
+            Stage stage = (Stage) scene.getWindow();
+            stage.close();
+            
+        });
+        buttons.setAlignment(Pos.CENTER);
+        buttons.setPadding(new Insets(10));
+        buttons.setSpacing(10);
+        buttons.getChildren().addAll(replay, exit);
+        buttons.getStyleClass().add("vboxQuestions");
+        
+        vboxDisplay.getChildren().add(buttons);
+    }
 
 
     
     private void results(){
         //debugging
-        System.out.println("Respuestas del jugador: " + playerAnswers);
-        System.out.println("Respuestas en el archivo:");
-        printer.printMap(answers);
+//        System.out.println("Respuestas del jugador: " + playerAnswers);
+//        System.out.println("Respuestas en el archivo:");
+//        printer.printMap(answers);
+        
+        yesButton.setVisible(false);
+        noButtoon.setVisible(false);
         
         String animal = game.findAnimalFromUsersAnswers(answers, playerAnswers);
         List<String> possibleAnimals = game.findListAnimals(answers, playerAnswers);
         
         if(animal!=null){
-            
             setResultsVBox(animal);
-            System.out.println(animal);
             
         } else if(possibleAnimals.isEmpty() && animal!=null){
             System.out.println("Respuestas del jugador: " + playerAnswers);
             quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
+            addButtons();
         }
-        else if(possibleAnimals.size()==1){
+        else if(possibleAnimals.size()==1 ){
             quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
+            addButtons();
         }
         else{
-            quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
+            quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
+            addButtons();
         }
+        
     }
 }
 

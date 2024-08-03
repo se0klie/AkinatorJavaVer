@@ -4,8 +4,7 @@
  */
 package com.edu.espol.proyecto2ped;
 
-import ClassLists.SearchTree;
-import static com.edu.espol.proyecto2ped.MainPageController.answers;
+import ClassLists.Node;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +21,7 @@ public class GameFacade {
         Iterator<Map.Entry<String,List<String>>> iterator = answerMap.entrySet().iterator();
         while(iterator.hasNext()){
             Map.Entry<String,List<String>> mapResult = iterator.next();
-            if(mapResult.getValue().equals(userAnswers)){
+            if(mapResult.getValue().equals(userAnswers) && mapResult.getKey().compareTo("ANIMAL")!=0){
                 return mapResult.getKey();
             }
         }
@@ -40,5 +39,12 @@ public class GameFacade {
             }
         }
         return possibleAnimals;
+    }
+    
+    public boolean validateIfValidNode(Node<String> node){
+        if(node.getString().compareTo("ANIMAL")!=0){
+            return true;
+        }
+        return false;
     }
 }

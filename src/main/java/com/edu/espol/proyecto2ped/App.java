@@ -55,11 +55,11 @@ public class App extends Application {
     
     
     public static void main(String[] args) throws IOException {
-        Queue<String> ques = FileControl.readLinesFromZip("Archive.zip", "questionsDATA.txt");
-        SearchTree<String> tree = new SearchTree<String>().buildQuestionTree(ques);
-        Map<String, List<String>> answers = FileControl.readAnswersFromZip("Archive.zip", "answersDATA.txt");
-        tree.buildAnswersTree(answers);
-        tree.recorrerPreorden();
+//        Queue<String> ques = FileControl.readLinesFromZip("Archive.zip", "questions.txt");
+//        SearchTree<String> tree = new SearchTree<String>().buildQuestionTree(ques);
+//        Map<String, List<String>> answers = FileControl.readAnswersFromZip("Archive.zip", "answersDATA.txt");
+//        tree.buildAnswersTree(answers);
+//        tree.recorrerPreorden();
         launch();
     }
     
