@@ -24,7 +24,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 
@@ -70,8 +72,8 @@ public class MainPageController implements Initializable{
         Image image = new Image(getClass().getResource("/genie.png").toExternalForm());
         queueQuestions = FileControl.readLinesFromZip("Archive.zip","questions.txt");
         genieImage.setImage(image);
-        quesLabel.setWrapText(true);
-        
+        setLabel(quesLabel);
+        setLabel(numberQuesLabel);
         try {
             answers = FileControl.readAnswersFromZip("Archive.zip","answersDATA.txt");
             startGame();
@@ -81,7 +83,17 @@ public class MainPageController implements Initializable{
         }
  
     }
-        public void startGame() throws IOException {
+    
+    private void setLabel(Label label) {
+        label.setWrapText(true);
+        label.setPadding(new Insets(5));
+        label.setAlignment(Pos.CENTER);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setTextAlignment(TextAlignment.CENTER);
+        label.setMinHeight(Region.USE_PREF_SIZE);
+    }
+    
+    public void startGame() throws IOException {
         // Obtener el "banco" de preguntas
         
         if (!queueQuestions.isEmpty()) {
@@ -249,11 +261,14 @@ public class MainPageController implements Initializable{
         
         yesButton.setVisible(false);
         noButtoon.setVisible(false);
+        vboxQuestions.getChildren().remove(numberQuesLabel);
+        vboxDisplay.getChildren().remove(hboxButtons);
         
         String animal = game.findAnimalFromUsersAnswers(answers, playerAnswers);
         List<String> possibleAnimals = game.findListAnimals(answers, playerAnswers);
         
         if(lost){
+            quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
             return ;
@@ -271,6 +286,7 @@ public class MainPageController implements Initializable{
             addButtons();
         }
         else{
+            quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
         }
