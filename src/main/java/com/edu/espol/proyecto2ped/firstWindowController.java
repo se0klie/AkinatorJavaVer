@@ -1,6 +1,7 @@
 package com.edu.espol.proyecto2ped;
 
 
+import ClassLists.FileControl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -29,8 +31,6 @@ import javafx.stage.Stage;
 public class firstWindowController implements Initializable{
 
     @FXML
-    private ImageView imageBack;
-    @FXML
     private Pane pane;
     @FXML
     private TextField quesNum;
@@ -39,6 +39,10 @@ public class firstWindowController implements Initializable{
     
     public static int numberOfQues = 0;
     public static int maxOfQues = 0;
+    @FXML
+    private Label nameGame;
+    @FXML
+    private Label description;
     @Override
     public void initialize(URL url, ResourceBundle rb){ //no me gusta q no se oueda ampliar la pantalla y qUE NO SE CENTREN LAS MOVIDAS AUXILIO
         try {
@@ -57,36 +61,58 @@ public class firstWindowController implements Initializable{
         
     }
     
+    //Se vuelve a leer el archivo y cargar las preguntas con este método
+    
+    public void initializeGame(){
+        MainPageController.queueQuestions= FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
+    }
+    
     
     
     @FXML
     public void nextButton(MouseEvent event) throws IOException {
-        if (!quesNum.getText().isEmpty()) {
-            if (Number.isNumeric(quesNum.getText())) {
-                maxOfQues = Integer.parseInt(quesNum.getText());
+        String input = quesNum.getText();
 
-                // Cierra la ventana actual
-                Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                currentStage.close();
+        if (!input.isEmpty()) {
+            if (Number.isNumeric(input)) {
+                int num = Integer.parseInt(input);
 
-                // Carga la nueva ventana principal
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("mainPage.fxml"));
-                Parent root = loader.load();
-                Scene scene = new Scene(root);
+                if (num > 0) {  // Verifico que el número sea positivo
+                    maxOfQues = num;
 
-                // Aplica el CSS a la nueva escena
-                scene.getStylesheets().add(getClass().getResource("/com/edu/espol/proyecto2ped/styles.css").toExternalForm());
+                    // Cierra la ventana actual
+                    Stage currentStage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                    currentStage.close();
 
-                Stage newStage = new Stage();
-                newStage.setTitle("Akinator");
-                newStage.setScene(scene);
-                newStage.show();
+                    // Carga la nueva ventana principal
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/mainPage.fxml"));
+                    Parent root = loader.load();
+                    Scene scene = new Scene(root);
+
+                    // Aplica el CSS a la nueva escena
+                    scene.getStylesheets().add(getClass().getResource("/com/edu/espol/proyecto2ped/styles.css").toExternalForm());
+
+                    Stage newStage = new Stage();
+                    newStage.setTitle("Akinator");
+                    newStage.setScene(scene);
+                    newStage.show();
+                } else {
+                    showAlert(AlertType.ERROR, "El número debe ser positivo.");
+                }
+            } else {
+                showAlert(AlertType.ERROR, "Ingrese un número entero válido.");
             }
         } else {
-            Alert a = new Alert(AlertType.ERROR);
-            a.setContentText("Ingrese un numero entero.");
-            a.show();
+            showAlert(AlertType.ERROR, "El campo no puede estar vacío.");
         }
+    }
+    
+    // Metodo para mostrar las alertas de mejor manera
+    
+    private void showAlert(AlertType type,String message){
+        Alert alert = new Alert(type);
+        alert.setContentText(message);
+        alert.show();
     }
 
 }

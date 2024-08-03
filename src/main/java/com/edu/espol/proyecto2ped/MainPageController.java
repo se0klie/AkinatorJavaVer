@@ -12,16 +12,21 @@ import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
 
 
@@ -33,7 +38,6 @@ public class MainPageController implements Initializable{
     @FXML
     private HBox hboxButtons;
 
-    @FXML
     private Button noButtoon;
 
     @FXML
@@ -45,10 +49,8 @@ public class MainPageController implements Initializable{
     @FXML
     private VBox vboxQuestions;
 
-    @FXML
     private Button yesButton;
     
-    @FXML
     private Label numberQuesLabel;
     
     private Printer printer = new Printer();
@@ -61,6 +63,8 @@ public class MainPageController implements Initializable{
     private GameFacade game = new GameFacade();
     public static Queue<String> queueQuestions = FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
     public static Map<String,List<String>> answers = null;
+    @FXML
+    private Pane paneMainPage;
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -117,7 +121,6 @@ public class MainPageController implements Initializable{
    
     
     //Metodo para avanzar de pregunta 
-    @FXML
     private void yesButtonQues(MouseEvent event) {
         playerAnswers.add("si");
         
@@ -136,7 +139,6 @@ public class MainPageController implements Initializable{
     }
     
     //Metodo para avanzar de pregunta 
-    @FXML
     private void noButtonQues(MouseEvent event) {
         playerAnswers.add("no");
         if(game.findAnimalFromUsersAnswers(answers, playerAnswers)!=null){
@@ -162,7 +164,22 @@ public class MainPageController implements Initializable{
         animal2.getStyleClass().add("vboxQuestions");
         HBox buttons = new HBox();
         Button replay = new Button("Jugar de nuevo");
+        replay.getStyleClass().add("noButtoon");
+        replay.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->{
+            try {
+                goToFirstPage();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         Button exit = new Button("Salir");
+        exit.getStyleClass().add("noButtoon");
+        exit.addEventHandler(MouseEvent.MOUSE_CLICKED,event->{
+            Scene scene = genieImage.getScene();
+            Stage stage = (Stage) scene.getWindow();
+            stage.close();
+            
+        });
         buttons.setAlignment(Pos.CENTER);
         buttons.setPadding(new Insets(10));
         buttons.setSpacing(10);
@@ -194,6 +211,28 @@ public class MainPageController implements Initializable{
         vboxDisplay.getChildren().addAll(vboxQuestions, hboxButtons);
         
     }
+    
+    //Metodo para volver al fxml de firstPage y reiniciar el juego
+    private void goToFirstPage() throws IOException {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/firstPage.fxml"));
+            Parent firstPageRoot = loader.load();
+            Scene scene = genieImage.getScene();
+            if (scene != null) {
+                Stage stage = (Stage) scene.getWindow();
+                stage.setScene(new Scene(firstPageRoot));
+                stage.show();
+            }
+            firstWindowController firstWindowController = loader.getController();
+            firstWindowController.initializeGame();
+        } catch (IOException e) {
+            System.out.println("Error al cargar el archivo FXML: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+    
+
+
     
     private void results(){
         //debugging
