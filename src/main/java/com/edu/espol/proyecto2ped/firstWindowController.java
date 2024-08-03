@@ -2,6 +2,7 @@ package com.edu.espol.proyecto2ped;
 
 
 import ClassLists.FileControl;
+import ClassLists.User;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -14,11 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -34,16 +32,13 @@ public class firstWindowController implements Initializable{
     private Pane pane;
     @FXML
     private TextField quesNum;
-    @FXML
-    private Button nextButton;
+    @FXML 
+    private TextField name;
     
+    public static User currentUser = null;
     public static int numberOfQues = 0;
     public static int maxOfQues = 0;
-    @FXML
-    private Label nameGame;
-    @FXML
-    private Label description;
-    @Override
+    
     public void initialize(URL url, ResourceBundle rb){ //no me gusta q no se oueda ampliar la pantalla y qUE NO SE CENTREN LAS MOVIDAS AUXILIO
         try {
             String path = "/Users/hailiejimenez/Desktop/la odiada espol/estructuras/tareas/AkinatorJavaVer/src/main/resources/img/backgroundProy.png";
@@ -72,7 +67,15 @@ public class firstWindowController implements Initializable{
     @FXML
     public void nextButton(MouseEvent event) throws IOException {
         String input = quesNum.getText();
-
+        
+        String nameStr = "Usuario";
+        if(!name.getText().isEmpty()){
+            nameStr = name.getText();
+        }
+        
+        currentUser = new User(nameStr);
+        FileControl.writeUserToFile(currentUser);
+        
         if (!input.isEmpty()) {
             if (Number.isNumeric(input)) {
                 int num = Integer.parseInt(input);

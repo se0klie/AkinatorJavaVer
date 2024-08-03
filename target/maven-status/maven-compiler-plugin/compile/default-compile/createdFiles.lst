@@ -1,6 +1,8 @@
 com/edu/espol/proyecto2ped/Number.class
 com/edu/espol/proyecto2ped/PrimaryController.class
+ClassLists/User.class
 com/edu/espol/proyecto2ped/GameFacade.class
+ClassLists/Achievement.class
 com/edu/espol/proyecto2ped/Printer.class
 com/edu/espol/proyecto2ped/App.class
 module-info.class
@@ -9,4 +11,3 @@ ClassLists/FileControl.class
 com/edu/espol/proyecto2ped/MainPageController.class
 ClassLists/SearchTree.class
 com/edu/espol/proyecto2ped/firstWindowController.class
-com/edu/espol/proyecto2ped/SecondaryController.class
