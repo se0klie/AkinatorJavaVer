@@ -24,7 +24,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -52,7 +51,7 @@ public class MainPageController implements Initializable{
     private Button yesButton;
     
     private Label numberQuesLabel;
-    
+    private boolean lost = false;
     private Printer printer = new Printer();
     private Node<String> currentNode;
     private SearchTree<String> questionTree;
@@ -113,10 +112,9 @@ public class MainPageController implements Initializable{
             numberQuesLabel.setText("Pregunta #" + (actualNumQues + 1));
         }
             else{
+                lost = true;
                 results();
                 numberQuesLabel.setText("");
-                yesButton.setDisable(true); // desactivo los botones para que no pueda avanzar
-                noButtoon.setDisable(true);
             }
         } else {
             results();
@@ -255,11 +253,16 @@ public class MainPageController implements Initializable{
         String animal = game.findAnimalFromUsersAnswers(answers, playerAnswers);
         List<String> possibleAnimals = game.findListAnimals(answers, playerAnswers);
         
+        if(lost){
+            quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
+            addButtons();
+            return ;
+        }
+        
         if(animal!=null){
             setResultsVBox(animal);
             
         } else if(possibleAnimals.isEmpty() && animal!=null){
-            System.out.println("Respuestas del jugador: " + playerAnswers);
             quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
             addButtons();
         }
