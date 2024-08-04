@@ -187,11 +187,13 @@ public class MainPageController implements Initializable{
         vboxQuestions.getStyleClass().add("vboxQuestions");
         numberQuesLabel =  new Label();
         quesLabel = new Label();
+        
         yesButton = new Button("Sí");
         yesButton.getStyleClass().add("yesButton");
         yesButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
             yesButtonQues(event);
         });
+        
         noButtoon = new Button("No");
         noButtoon.getStyleClass().add("noButtoon");
         noButtoon.addEventHandler(MouseEvent.MOUSE_CLICKED, event->{
@@ -268,33 +270,24 @@ public class MainPageController implements Initializable{
         String animal = game.findAnimalFromUsersAnswers(answers, playerAnswers);
         List<String> possibleAnimals = game.findListAnimals(answers, playerAnswers);
         
-        if(lost){
+        if(animal!=null){ //FOUND ANIMAL
+            setResultsVBox(animal);
+            quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
+            addButtons();
+            System.out.println("WON ++");
+            FileControl.editUser(firstWindowController.currentUser, true);
+        } else if(lost){ //RAN OUT OF QUESTIONS
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
             FileControl.editUser(firstWindowController.currentUser, false);
-            
-            return ;
-        }
-        
-        if(animal!=null){
-            setResultsVBox(animal);
-            FileControl.editUser(firstWindowController.currentUser, true);
-            
-        } else if(possibleAnimals.isEmpty() && animal!=null){
-            quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
-            addButtons();
-            FileControl.editUser(firstWindowController.currentUser, false);
-        }
-        else if(possibleAnimals.size()==1 ){
-            quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
-            addButtons();
-            FileControl.editUser(firstWindowController.currentUser, true);
-        }
-        else{
+            System.out.println("LOST ++1");
+        } 
+        else{ //ANIMAL DOESNT EXIST
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
+            System.out.println("LOST ++1");
             FileControl.editUser(firstWindowController.currentUser, false);
         }
         

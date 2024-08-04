@@ -81,7 +81,7 @@ public class User implements Comparable<User>{
         this.achievements = achievements;
     }
     public String toString(){
-        return name + ":" + won + "|" + lost +":" + achievementsStr();
+        return name +":"+ password +":" + won + "|" + lost +":" + achievementsStr();
     }
 
     @Override

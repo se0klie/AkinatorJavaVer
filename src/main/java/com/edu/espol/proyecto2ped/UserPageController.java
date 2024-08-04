@@ -41,7 +41,6 @@ public class UserPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println(user.getName());
     }    
     
     public static void setUser(User us){

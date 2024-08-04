@@ -129,8 +129,11 @@ public class FileControl {
                 us.setPassword(parts[1]);
                 
                 String[] parts2 = parts[2].split("\\|");
+                
                 us.setWon(Integer.parseInt(parts2[0]));
                 us.setLost(Integer.parseInt(parts2[1]));
+                System.out.println("WIN: "+ us.getWon() + " LOST " + us.getLost());
+                
                 LinkedList<Achievement> achieved = new LinkedList<>();
                 
                 if(parts[3].contains(";")){ 
@@ -158,6 +161,9 @@ public class FileControl {
     
     public static User getUser(User us){
         LinkedList<User> users = getUsersAchDB();
+        if(users.isEmpty()){
+            return null;
+        }
         Iterator<User> usIt = users.iterator();
         while(usIt.hasNext()){
             User user = usIt.next();
@@ -183,7 +189,7 @@ public class FileControl {
 
         for (String line : lines) {
             String[] str = line.split(":");
-            if (!found && str[0].compareTo(user.getName())==0) {
+            if (!found && str[0].compareTo(user.getName())==0 && str[1].compareTo(user.getPassword())==0) {
                 found = true;
                 line = user.toString();
             }
@@ -191,7 +197,7 @@ public class FileControl {
         }
 
         if (!found) {
-            updatedLines.add(user.getName() + ":" + user.getWon() + ":" + user.getLost());
+            updatedLines.add(user.toString());
         }
 
         return updatedLines;
@@ -216,7 +222,6 @@ public class FileControl {
         List<String> lines = FileControl.readFile();
         ArrayList<String> linesUpdated = FileControl.updateLines(lines, user);
         FileControl.writeFile(linesUpdated);
-        saveUser(user);
         
     }
     
