@@ -52,6 +52,7 @@ public class AchievementsController implements Initializable {
         
         vbox.getStyleClass().add("achievement-vbox");
         LinkedList<Achievement> achievements = firstWindowController.currentUser.getAchievements();
+        
         if(achievements.isEmpty()){
             Alert a = new Alert(AlertType.INFORMATION);
             a.setContentText("No cuentas con logros. Comienza a jugar para avanzar.");

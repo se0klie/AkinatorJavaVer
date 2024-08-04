@@ -69,7 +69,7 @@ public class User implements Comparable<User>{
     public String achievementsStr(){
         String str = "[";
         for(Achievement ach : achievements){
-            str += ach.toString() + "; ";
+            str += ach.toString() + ";";
         }
         str += "]";
         return str;

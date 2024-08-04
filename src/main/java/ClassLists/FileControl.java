@@ -146,11 +146,16 @@ public class FileControl {
                 LinkedList<Achievement> achieved = new LinkedList<>();
                 
                 if(parts[3].contains(";")){ 
-                    String[] ach = parts[3].split("; ");
+                    parts[3].replace("\\[", "");
+                    parts[3].replace("\\]", "");
+                    
+                    String[] ach = parts[3].split(";");
                     for(String str : ach){
                         String[] achievement = str.split("-");
-                        Achievement achNew = new Achievement(achievement[0],achievement[1]);
-                        achieved.add(achNew);
+                        if(achievement.length==2){
+                            Achievement achNew = new Achievement(achievement[0],achievement[1]);
+                            achieved.add(achNew);
+                        }
                     }
                 }
                 
