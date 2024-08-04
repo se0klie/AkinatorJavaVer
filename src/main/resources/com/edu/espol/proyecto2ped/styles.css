@@ -4,7 +4,7 @@
     -fx-text-fill: #414C5C;
     -fx-padding: 15px 25px;
     -fx-font-size: 16px;
-    -fx-font-weight: bold;
+    -fx-font-weight: bold; /* 'bold' en lugar de 'bold' */
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-border-color: #D1B84F;
@@ -19,12 +19,12 @@
 }
 
 /* Estilo para el botón "No" */
-.noButtoon {
+.noButtoon { 
     -fx-background-color: #F2DB94;
     -fx-text-fill: #414C5C;
     -fx-padding: 15px 25px;
     -fx-font-size: 16px;
-    -fx-font-weight: bold;
+    -fx-font-weight: bold; /* 'bold' en lugar de 'bold' */
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-border-color: #D1B84F;
@@ -33,7 +33,7 @@
     -fx-transition: background-color 0.3s ease;
 }
 
-.noButton:hover {
+.noButtoon:hover {
     -fx-background-color: #E3C876;
     -fx-effect: dropshadow(gaussian, #D1B84F, 10, 0, 0, 4);
 }
@@ -43,7 +43,7 @@
     -fx-background-color: #F2DB94;
     -fx-padding: 20px;
     -fx-font-size: 14px;
-    -fx-font-weight: bold;
+    -fx-font-weight: bold; /* 'bold' en lugar de 'bold' */
     -fx-border-radius: 10px;
     -fx-background-radius: 10px;
     -fx-border-color: #D1B84F;
@@ -52,38 +52,38 @@
 }
 
 /* Estilo para el fondo del pane */
-.pane,.paneMainPage, BorderPane {
+.pane, .paneMainPage, BorderPane {
     -fx-background-color: #444b59;
 }
 
 /* Estilo para el título */
 .nameGame {
-    -fx-text-fill: #F2DB94; /* Color de fondo para el botón "Sí" */
+    -fx-text-fill: #F2DB94;
     -fx-font-size: 36px;
-    -fx-font-weight: bold;
+    -fx-font-weight: bold; /* 'bold' en lugar de 'bold' */
 }
 
 /* Estilo para el texto descriptivo */
 .description {
-    -fx-text-fill: #F2DB94; /* Color de fondo para el botón "Sí" */
+    -fx-text-fill: #F2DB94;
     -fx-font-size: 18px;
-    -fx-font-weight: regular;
+    -fx-font-weight: normal; /* 'normal' en lugar de 'regular' */
 }
 
 /* Estilo para el TextField */
 .textField {
     -fx-pref-width: 300px;
     -fx-padding: 10px;
-    -fx-background-color: #414C5C; /* Color oscuro similar al texto de los botones */
-    -fx-text-fill: #F2DB94; /* Color de texto claro */
-    -fx-border-color: #D1B84F; /* Color de borde similar al del botón */
+    -fx-background-color: #414C5C;
+    -fx-text-fill: #F2DB94;
+    -fx-border-color: #D1B84F;
     -fx-border-radius: 5px;
 }
 
 /* Estilo para el botón */
 .nextButton {
-    -fx-background-color: #F2DB94; /* Color similar al del botón "Sí" */
-    -fx-text-fill: #414C5C; /* Color de texto oscuro */
+    -fx-background-color: #F2DB94;
+    -fx-text-fill: #414C5C;
     -fx-font-size: 16px;
     -fx-padding: 10px 20px;
     -fx-border-radius: 5px;
@@ -91,8 +91,32 @@
 }
 
 .nextButton:hover {
-    -fx-background-color: #E3C876; /* Color de fondo en hover */
+    -fx-background-color: #E3C876;
 }
 
+/* Estilo para logros */
+.achievement-vbox {
+    padding: 20px;
+    background-color: #f5f5f5;
+    border: 2px solid #d4af37;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 
+.achievement-label {
+    font-family: "Verdana", sans-serif;
+    font-size: 16px;
+    color: #333;
+    padding: 5px 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.achievement-label:hover {
+    background-color: #f0e68c;
+    cursor: pointer;
+}
 
