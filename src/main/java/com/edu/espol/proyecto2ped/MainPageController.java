@@ -142,8 +142,7 @@ public class MainPageController implements Initializable{
         if(game.findAnimalFromUsersAnswers(answers, playerAnswers)!=null){
             results();
             
-        }
-        if(currentNode.getYes()!=null){
+        }else if(currentNode.getYes()!=null){
             currentNode=currentNode.getYes().getRoot();
             actualNumQues++;
             showQuestion();
@@ -159,8 +158,7 @@ public class MainPageController implements Initializable{
         if(game.findAnimalFromUsersAnswers(answers, playerAnswers)!=null){
             results();
             
-        }
-        if(currentNode.getNo()!=null){
+        } else if(currentNode.getNo()!=null){
             
             currentNode=currentNode.getNo().getRoot();
             actualNumQues++;
@@ -257,10 +255,6 @@ public class MainPageController implements Initializable{
     
     
     private void results(){
-        //debugging
-//        System.out.println("Respuestas del jugador: " + playerAnswers);
-//        System.out.println("Respuestas en el archivo:");
-//        printer.printMap(answers);
         
         yesButton.setVisible(false);
         noButtoon.setVisible(false);
@@ -273,7 +267,6 @@ public class MainPageController implements Initializable{
         if(animal!=null){ //FOUND ANIMAL
             setResultsVBox(animal);
             quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
-            addButtons();
             System.out.println("WON ++");
             FileControl.editUser(firstWindowController.currentUser, true);
         } else if(lost){ //RAN OUT OF QUESTIONS
@@ -289,8 +282,8 @@ public class MainPageController implements Initializable{
             addButtons();
             System.out.println("LOST ++1");
             FileControl.editUser(firstWindowController.currentUser, false);
+            
         }
-        
     }
 }
 
