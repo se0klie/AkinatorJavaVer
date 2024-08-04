@@ -5,6 +5,7 @@
 package com.edu.espol.proyecto2ped;
 
 import ClassLists.FileControl;
+import ClassLists.User;
 import static com.edu.espol.proyecto2ped.firstWindowController.maxOfQues;
 import java.io.IOException;
 import java.net.URL;
@@ -33,16 +34,19 @@ public class UserPageController implements Initializable {
     private TextField quesNum;
     @FXML
     private Button nextButton;
+    private static User user=null;
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        firstWindowController.currentUser = FileControl.getUser(firstWindowController.currentUser);
-        
+        System.out.println(user.getName());
     }    
     
+    public static void setUser(User us){
+        user = us;
+    }
     //ESTE EVENT ESTABA ANTES EN EL FXML DE FIRSTWINDOWCONTROLLER, LO CAMBIÉ ACÁ
     
 

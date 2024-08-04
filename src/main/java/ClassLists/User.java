@@ -4,7 +4,9 @@
  */
 package ClassLists;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -89,6 +91,7 @@ public class User implements Comparable<User>{
         }
         return 1;
     }
+    
     
     
 }

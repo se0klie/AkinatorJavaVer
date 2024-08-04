@@ -149,8 +149,9 @@ public class firstWindowController implements Initializable{
             try{
                 currentUser = new User(name_user);
                 currentUser.setPassword(password_user);
-                FileControl.saveAchievementDB(currentUser);
-                FileControl.saveUserDB(currentUser);
+                FileControl.saveUser(currentUser);
+                UserPageController.setUser(currentUser);
+                
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
                 Parent userPage = loader.load();          
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

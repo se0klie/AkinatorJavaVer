@@ -5,18 +5,18 @@
 package com.edu.espol.proyecto2ped;
 
 import ClassLists.Achievement;
-import ClassLists.FileControl;
-import static ClassLists.FileControl.readAchievements;
-import ClassLists.User;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 /**
@@ -51,6 +51,7 @@ public class AchievementsController implements Initializable {
         vbox.setSpacing(10);
         
         vbox.getStyleClass().add("achievement-vbox");
+        System.out.println("CURRENT US: "+ firstWindowController.currentUser);
         LinkedList<Achievement> achievements = firstWindowController.currentUser.getAchievements();
         
         if(achievements.isEmpty()){
@@ -60,11 +61,16 @@ public class AchievementsController implements Initializable {
         }
         
         for(Achievement achievement: achievements){
+            Image image = new Image(getClass().getResource("/star.png").toExternalForm());
+            ImageView img = new ImageView(image);
+            img.setFitHeight(60);
+            img.setFitWidth(60);
             Label achievementLabel = new Label(achievement.getName()+" - "+achievement.getDescription());
             achievementLabel.getStyleClass().add("achievement-label");
-            vbox.getChildren().add(achievementLabel);
+            vbox.getChildren().addAll(img,achievementLabel);
             
         }
+        vbox.setAlignment(Pos.CENTER);
         return vbox;
     } 
     

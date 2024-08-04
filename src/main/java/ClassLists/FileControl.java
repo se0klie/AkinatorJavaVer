@@ -8,6 +8,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -105,7 +107,7 @@ public class FileControl {
         return false;
     }
     
-    public static void saveAchievementDB(User user) {
+    public static void saveUser(User user) {
         if (getUser(user)!=null){
             try (BufferedWriter bw = new BufferedWriter(new FileWriter("userDB.txt", true))) { // 'true' to append
                 bw.write(user.toString());
@@ -113,20 +115,6 @@ public class FileControl {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-    }
-    
-    public static void saveUserDB(User user){
-        System.out.println("Saving to: " + new File("registro.txt").getAbsolutePath());
-
-        //El true me permite hacer que no se sobreescriban los datos, si no que se almacenen
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter("registro.txt",true))){
-            if(user.getName()!=null && user.getPassword()!=null){
-                writer.write(user.getName()+","+user.getPassword()+"\n");
-            } 
-        }
-        catch(IOException e){
-            e.printStackTrace();
         }
     }
     
@@ -179,5 +167,58 @@ public class FileControl {
         }
         return null;
     }
+    
+     public static List<String> readFile() {
+        try {
+            return Files.readAllLines(Paths.get("userDB.txt"));
+        } catch (IOException e) {
+            System.err.println("Error reading the file: " + e.getMessage());
+            return null;
+        }
+    }
+     
+   public static ArrayList<String> updateLines(List<String> lines, User user) {
+        ArrayList<String> updatedLines = new ArrayList<>();
+        boolean found = false;
+
+        for (String line : lines) {
+            String[] str = line.split(":");
+            if (!found && str[0].compareTo(user.getName())==0) {
+                found = true;
+                line = user.toString();
+            }
+            updatedLines.add(line);
+        }
+
+        if (!found) {
+            updatedLines.add(user.getName() + ":" + user.getWon() + ":" + user.getLost());
+        }
+
+        return updatedLines;
+    }
+
+    
+    public static void writeFile(ArrayList<String> lines) {
+        try {
+            Files.write(Paths.get("userDB.txt"), lines);
+            
+        } catch (IOException e) {
+            System.err.println("Error writing to the file: " + e.getMessage());
+        }
+    }
+    
+    public static void editUser(User user,boolean won){
+        if(won){
+            user.setWon(user.getWon()+1);
+        } else {
+            user.setLost(user.getLost()+1);
+        }
+        List<String> lines = FileControl.readFile();
+        ArrayList<String> linesUpdated = FileControl.updateLines(lines, user);
+        FileControl.writeFile(linesUpdated);
+        saveUser(user);
+        
+    }
+    
 }
 

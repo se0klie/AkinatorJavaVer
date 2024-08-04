@@ -4,6 +4,7 @@ package com.edu.espol.proyecto2ped;
 import ClassLists.FileControl;
 import ClassLists.Node;
 import ClassLists.SearchTree;
+import ClassLists.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -251,7 +252,7 @@ public class MainPageController implements Initializable{
         vboxDisplay.getChildren().add(buttons);
     }
 
-
+    
     
     private void results(){
         //debugging
@@ -271,24 +272,30 @@ public class MainPageController implements Initializable{
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
+            FileControl.editUser(firstWindowController.currentUser, false);
+            
             return ;
         }
         
         if(animal!=null){
             setResultsVBox(animal);
+            FileControl.editUser(firstWindowController.currentUser, true);
             
         } else if(possibleAnimals.isEmpty() && animal!=null){
             quesLabel.setText("No se pudo encontrar ningun animal con esas respuestas");
             addButtons();
+            FileControl.editUser(firstWindowController.currentUser, false);
         }
         else if(possibleAnimals.size()==1 ){
             quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
             addButtons();
+            FileControl.editUser(firstWindowController.currentUser, true);
         }
         else{
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
+            FileControl.editUser(firstWindowController.currentUser, false);
         }
         
     }
