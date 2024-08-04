@@ -3,6 +3,7 @@ package ClassLists;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -95,60 +96,17 @@ public class FileControl {
          return achievements;
     }
     
-    public static LinkedList<User> getUsers() {
-        LinkedList<User> users = new LinkedList<>();
-        try (BufferedReader br = new BufferedReader(new FileReader("userDB.txt"))) {
-            String line;
-            while ((line = br.readLine()) != null) {
-                String[] parts = line.split(":");
-                String name = parts[0];
-                User us = new User(name);
-                
-                System.out.println(parts[1]);
-                String[] score = parts[1].split("\\|");
-                
-                us.setWon(Integer.parseInt(score[0]));
-                us.setLost(Integer.parseInt(score[1]));
-                
-                parts[2].replace("\\[", " ");
-                parts[2].replace("\\]", " ");
-                
-                if(!parts[2].isEmpty()){
-                    String[] parts2 = parts[1].split("; ");
-                    for(String ach : parts2){
-                        Achievement achievement = new Achievement();
-                        try{
-                            achievement = achievement.getAchievementByName(name);
-                            us.addAchievement(achievement);
-                        } catch (Exception e){
-                            
-                        }
-                    }
-                }
-                
-
-                users.add(us);
-            }
-            
-        } catch (IOException e) {
-            e.printStackTrace();
+    
+    public static boolean authentication(User user){
+        User us = getUser(user);
+        if(us !=null){
+            return true;
         }
-        return users;
+        return false;
     }
     
-    public static boolean userExists(String name){
-        Iterator<User> it = getUsers().iterator();
-        boolean found = false;
-        while(it.hasNext()){
-            User us = it.next();
-            if(us.getName().compareTo(name)==0){
-                found = true;
-            }
-        }
-        return found;
-    }
-    public static void writeUserToFile(User user) {
-        if (!userExists(user.getName())){
+    public static void saveAchievementDB(User user) {
+        if (getUser(user)!=null){
             try (BufferedWriter bw = new BufferedWriter(new FileWriter("userDB.txt", true))) { // 'true' to append
                 bw.write(user.toString());
                 bw.newLine();
@@ -158,5 +116,63 @@ public class FileControl {
         }
     }
     
+    public static void saveUserDB(User user){
+        System.out.println("Saving to: " + new File("registro.txt").getAbsolutePath());
+
+        //El true me permite hacer que no se sobreescriban los datos, si no que se almacenen
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter("registro.txt",true))){
+            if(user.getName()!=null && user.getPassword()!=null){
+                writer.write(user.getName()+","+user.getPassword()+"\n");
+            } 
+        }
+        catch(IOException e){
+            e.printStackTrace();
+        }
+    }
+    
+    public static LinkedList<User> getUsersAchDB(){
+        LinkedList<User> users = new LinkedList<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader("userDB.txt"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                String name= parts[0];
+                User us = new User(name);
+                us.setPassword(parts[1]);
+                
+                String[] parts2 = parts[2].split("\\|");
+                us.setWon(Integer.parseInt(parts2[0]));
+                us.setLost(Integer.parseInt(parts2[1]));
+                LinkedList<Achievement> achieved = new LinkedList<>();
+                
+                if(parts[3].contains(";")){ 
+                    String[] ach = parts[3].split("; ");
+                    for(String str : ach){
+                        String[] achievement = str.split("-");
+                        Achievement achNew = new Achievement(achievement[0],achievement[1]);
+                        achieved.add(achNew);
+                    }
+                }
+                
+                us.setAchievements(achieved);
+                users.add(us);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+    
+    public static User getUser(User us){
+        LinkedList<User> users = getUsersAchDB();
+        Iterator<User> usIt = users.iterator();
+        while(usIt.hasNext()){
+            User user = usIt.next();
+            if(user.compareTo(us)==0){
+                return user;
+            }
+        }
+        return null;
+    }
 }
 

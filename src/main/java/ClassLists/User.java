@@ -10,8 +10,9 @@ import java.util.LinkedList;
  *
  * @author hailiejimenez
  */
-public class User {
+public class User implements Comparable<User>{
     private String name;
+    private String password;
     private int won;
     private int lost;
     private LinkedList<Achievement> achievements;
@@ -47,6 +48,14 @@ public class User {
         return lost;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     public LinkedList<Achievement> getAchievements() {
         return achievements;
     }
@@ -60,13 +69,26 @@ public class User {
     public String achievementsStr(){
         String str = "[";
         for(Achievement ach : achievements){
-            str += ach.getName() + "; ";
+            str += ach.toString() + "; ";
         }
         str += "]";
         return str;
     }
+
+    public void setAchievements(LinkedList<Achievement> achievements) {
+        this.achievements = achievements;
+    }
     public String toString(){
         return name + ":" + won + "|" + lost +":" + achievementsStr();
     }
+
+    @Override
+    public int compareTo(User o) {
+        if(this.name.compareTo(o.name)==0 && this.password.compareTo(o.password)==0){
+            return 0;
+        }
+        return 1;
+    }
+    
     
 }

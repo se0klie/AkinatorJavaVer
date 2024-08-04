@@ -3,7 +3,9 @@ package com.edu.espol.proyecto2ped;
 
 import ClassLists.FileControl;
 import ClassLists.User;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -127,14 +129,28 @@ public class firstWindowController implements Initializable{
     
     //IR AL FXML DE USERPAGE
     @FXML
-    private void goToProfile(ActionEvent event) {
+    private void goToProfile(ActionEvent event) throws IOException {
         String name_user=name.getText();
         String password_user = passwordUser.getText();
+        User us = new User(name_user);
+        us.setPassword(password_user);
         if(name_user.isEmpty() || password_user.isEmpty()){
             showAlert(AlertType.ERROR, "Debe rellenar los campos de usuario");
+        } else if(FileControl.authentication(us)){
+            currentUser = FileControl.getUser(us);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
+            Parent userPage = loader.load();          
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Scene scene = new Scene(userPage);
+            stage.setScene(scene);
+            stage.show();
         }
         else{
             try{
+                currentUser = new User(name_user);
+                currentUser.setPassword(password_user);
+                FileControl.saveAchievementDB(currentUser);
+                FileControl.saveUserDB(currentUser);
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
                 Parent userPage = loader.load();          
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -148,7 +164,7 @@ public class firstWindowController implements Initializable{
             }
         }
     }
-
+    
 
 }
 

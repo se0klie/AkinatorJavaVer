@@ -5,8 +5,6 @@
 package com.edu.espol.proyecto2ped;
 
 import ClassLists.FileControl;
-import ClassLists.User;
-import static com.edu.espol.proyecto2ped.firstWindowController.currentUser;
 import static com.edu.espol.proyecto2ped.firstWindowController.maxOfQues;
 import java.io.IOException;
 import java.net.URL;
@@ -41,7 +39,8 @@ public class UserPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        firstWindowController.currentUser = FileControl.getUser(firstWindowController.currentUser);
+        
     }    
     
     //ESTE EVENT ESTABA ANTES EN EL FXML DE FIRSTWINDOWCONTROLLER, LO CAMBIÉ ACÁ
