@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 import java.util.ResourceBundle;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -224,13 +225,28 @@ public class MainPageController implements Initializable{
             e.printStackTrace();
         }
     }
+    
+    private void goToUserPage(Event event) throws IOException {
+        try {
+            Stage currentStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+            App.setRoot("userPage");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
     public void addButtons(){
         HBox buttons = new HBox();
         Button replay = new Button("Jugar de nuevo");
         replay.getStyleClass().add("noButtoon");
         replay.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->{
             try {
-                goToFirstPage();
+                if (firstWindowController.currentUser != null) {
+                    goToUserPage(event);
+                } else {
+                    goToFirstPage();
+                }
             } catch (IOException ex) {
                 ex.printStackTrace();
             }

@@ -214,6 +214,9 @@ public class FileControl {
     }
     
     public static void editUser(User user,boolean won){
+        if(user == null) {
+            return;
+        }
         if(won){
             user.setWon(user.getWon()+1);
         } else {

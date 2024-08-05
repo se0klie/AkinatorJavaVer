@@ -14,11 +14,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
@@ -34,6 +36,8 @@ public class UserPageController implements Initializable {
     private TextField quesNum;
     @FXML
     private Button nextButton;
+    @FXML
+    private Label usernameLabel;
     private static User user=null;
 
     /**
@@ -41,7 +45,9 @@ public class UserPageController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
+        usernameLabel.setText(firstWindowController.currentUser.getName());
+        usernameLabel.setAlignment(Pos.CENTER);
+    }
     
     public static void setUser(User us){
         user = us;
@@ -98,5 +104,9 @@ public class UserPageController implements Initializable {
         newStage.show();
     }
     
-    
+    @FXML
+    private void logOut(ActionEvent event) throws IOException {
+        App.setRoot("firstPage");
+        firstWindowController.currentUser = null;
+    }
 }
