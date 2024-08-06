@@ -64,7 +64,7 @@ public class firstWindowController implements Initializable{
             System.out.println("Error al cargar el logo: " + e.getMessage());
         }
         
-        
+        initializeGame(); //Extraído del método goToFirstPage()
     }
     
     //Se vuelve a leer el archivo y cargar las preguntas con este método
@@ -138,12 +138,13 @@ public class firstWindowController implements Initializable{
             showAlert(AlertType.ERROR, "Debe rellenar los campos de usuario");
         } else if(FileControl.authentication(us)){
             currentUser = FileControl.getUser(us);
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
+            /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
             Parent userPage = loader.load();          
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(userPage);
             stage.setScene(scene);
-            stage.show();
+            stage.show();*/
+            App.setRoot("userPage");
         }
         else{
             try{
@@ -152,12 +153,13 @@ public class firstWindowController implements Initializable{
                 FileControl.saveUser(currentUser);
                 UserPageController.setUser(currentUser);
                 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
+                /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
                 Parent userPage = loader.load();          
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 Scene scene = new Scene(userPage);
                 stage.setScene(scene);
-                stage.show();
+                stage.show();*/
+                App.setRoot("userPage");
             }
             catch(IOException e){
                 System.out.println("Error al cargar el archivo FXML: " + e.getMessage());

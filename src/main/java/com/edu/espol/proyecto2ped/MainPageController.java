@@ -208,9 +208,9 @@ public class MainPageController implements Initializable{
     }
     
     //Metodo para volver al fxml de firstPage y reiniciar el juego
-    private void goToFirstPage() throws IOException {
+    private void goToFirstPage(Event event) throws IOException {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/firstPage.fxml"));
+            /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/firstPage.fxml"));
             Parent firstPageRoot = loader.load();
             Scene scene = genieImage.getScene();
             if (scene != null) {
@@ -219,19 +219,25 @@ public class MainPageController implements Initializable{
                 stage.show();
             }
             firstWindowController firstWindowController = loader.getController();
-            firstWindowController.initializeGame();
+            firstWindowController.initializeGame();*/
+            
+            Stage currentStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            currentStage.close();
+            App.setRoot("firstPage");
         } catch (IOException e) {
             System.out.println("Error al cargar el archivo FXML: " + e.getMessage());
             e.printStackTrace();
         }
     }
     
+    //Metodo para volver al fxml de userPage y reiniciar el juego
     private void goToUserPage(Event event) throws IOException {
         try {
             Stage currentStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             currentStage.close();
             App.setRoot("userPage");
         } catch (IOException ex) {
+            System.out.println("Error al cargar el archivo FXML: " + ex.getMessage());
             ex.printStackTrace();
         }
     }
@@ -245,7 +251,7 @@ public class MainPageController implements Initializable{
                 if (firstWindowController.currentUser != null) {
                     goToUserPage(event);
                 } else {
-                    goToFirstPage();
+                    goToFirstPage(event);
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

@@ -18,6 +18,10 @@
     -fx-effect: dropshadow(gaussian, #D1B84F, 10, 0, 0, 4);
 }
 
+.yesButton:pressed {
+    -fx-background-color: #907632;
+}
+
 /* Estilo para el botón "No" */
 .noButtoon { 
     -fx-background-color: #F2DB94;
@@ -36,6 +40,10 @@
 .noButtoon:hover {
     -fx-background-color: #E3C876;
     -fx-effect: dropshadow(gaussian, #D1B84F, 10, 0, 0, 4);
+}
+
+.noButtoon:pressed {
+    -fx-background-color: #907632;
 }
 
 /* Estilo para VBox con preguntas */
@@ -63,6 +71,13 @@
     -fx-font-weight: bold; /* 'bold' en lugar de 'bold' */
 }
 
+/* Estilo para el nombre del usuario */
+.username {
+    -fx-text-fill: #F2DB94;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold; /* 'bold' en lugar de 'bold' */
+}
+
 /* Estilo para el texto descriptivo */
 .description {
     -fx-text-fill: #F2DB94;
@@ -71,7 +86,7 @@
 }
 
 /* Estilo para el TextField */
-.textField {
+.textField, TextField, PasswordField {
     -fx-pref-width: 300px;
     -fx-padding: 10px;
     -fx-background-color: #414C5C;
@@ -120,3 +135,7 @@
     cursor: pointer;
 }
 
+/* Estilo para Label */
+.label1 {
+    -fx-text-fill: #e0e0e0; /* Color claro */
+}
