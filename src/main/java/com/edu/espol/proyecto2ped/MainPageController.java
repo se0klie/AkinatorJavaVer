@@ -4,7 +4,6 @@ package com.edu.espol.proyecto2ped;
 import ClassLists.FileControl;
 import ClassLists.Node;
 import ClassLists.SearchTree;
-import ClassLists.User;
 import java.io.IOException;
 import java.net.URL;
 import java.util.LinkedList;
@@ -14,11 +13,9 @@ import java.util.Queue;
 import java.util.ResourceBundle;
 import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -246,9 +243,10 @@ public class MainPageController implements Initializable{
         HBox buttons = new HBox();
         Button replay = new Button("Jugar de nuevo");
         replay.getStyleClass().add("noButtoon");
+        System.out.println("get global us: "+firstWindowController.getGlobalUser());
         replay.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->{
             try {
-                if (firstWindowController.currentUser != null) {
+                if (firstWindowController.getGlobalUser() != null) {
                     goToUserPage(event);
                 } else {
                     goToFirstPage(event);
@@ -289,20 +287,17 @@ public class MainPageController implements Initializable{
         if(animal!=null){ //FOUND ANIMAL
             setResultsVBox(animal);
             quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
-            System.out.println("WON ++");
             FileControl.editUser(firstWindowController.currentUser, true);
         } else if(lost){ //RAN OUT OF QUESTIONS
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
             FileControl.editUser(firstWindowController.currentUser, false);
-            System.out.println("LOST ++1");
         } 
         else{ //ANIMAL DOESNT EXIST
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
             quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
-            System.out.println("LOST ++1");
             FileControl.editUser(firstWindowController.currentUser, false);
             
         }

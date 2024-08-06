@@ -51,6 +51,7 @@ public class firstWindowController implements Initializable{
     private Button buttonLogin;
     
     public void initialize(URL url, ResourceBundle rb){ //no me gusta q no se oueda ampliar la pantalla y qUE NO SE CENTREN LAS MOVIDAS AUXILIO
+        currentUser = null;
         try {
             String path = "/Users/hailiejimenez/Desktop/la odiada espol/estructuras/tareas/AkinatorJavaVer/src/main/resources/img/backgroundProy.png";
             Image image = new Image(new File(path).toURI().toString());
@@ -167,7 +168,9 @@ public class firstWindowController implements Initializable{
             }
         }
     }
-    
+    public static User getGlobalUser(){
+        return currentUser;
+    }
 
 }
 
