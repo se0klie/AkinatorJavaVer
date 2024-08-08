@@ -67,6 +67,14 @@ public class User implements Comparable<User>{
             achievements.add(ach);
         }
     }
+    public void changeScore(boolean won){
+        if(won==true){
+            this.won += 1;
+        } else{
+            this.lost += 1;
+        }
+        System.out.println("WON: "+ this.won + " LOST: " + lost);
+    }
     
     public String achievementsStr(){
         String str = "[";

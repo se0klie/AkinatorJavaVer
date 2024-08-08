@@ -51,12 +51,12 @@ public class App extends Application {
         //        tree.buildAnswersTree(answers);
         //        tree.recorrerPreorden();
 
-        LinkedList<Achievement> ach = FileControl.readAchievements("Archive.zip", "achievements.txt");
-        Iterator<Achievement> it = ach.iterator();
-        while(it.hasNext()){
-            System.out.println(it.next().toString());
-        }
-        
+//        LinkedList<Achievement> ach = FileControl.readAchievements("Archive.zip", "achievements.txt");
+//        Iterator<Achievement> it = ach.iterator();
+//        while(it.hasNext()){
+//            System.out.println(it.next().toString());
+//        }
+//      
         launch();
     }
 }

@@ -4,7 +4,6 @@
  */
 package com.edu.espol.proyecto2ped;
 
-import ClassLists.FileControl;
 import ClassLists.User;
 import static com.edu.espol.proyecto2ped.firstWindowController.maxOfQues;
 import java.io.IOException;

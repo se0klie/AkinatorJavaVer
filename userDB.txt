@@ -1,2 +1,2 @@
-hailie:1234:7|1:[]
-javier :javier123:0|1:[]
+hailie:1234:0|0:[[Speedster  -  Identify an animal within 5 questions.;Speedster - Identify an animal within 5 questions.;]
+javier:javier123:0|1:[]

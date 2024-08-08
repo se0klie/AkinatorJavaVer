@@ -186,7 +186,6 @@ public class FileControl {
    public static ArrayList<String> updateLines(List<String> lines, User user) {
         ArrayList<String> updatedLines = new ArrayList<>();
         boolean found = false;
-
         for (String line : lines) {
             String[] str = line.split(":");
             if (!found && str[0].compareTo(user.getName())==0 && str[1].compareTo(user.getPassword())==0) {
@@ -213,14 +212,9 @@ public class FileControl {
         }
     }
     
-    public static void editUser(User user,boolean won){
+    public static void editUser(User user){
         if(user == null) {
             return;
-        }
-        if(won){
-            user.setWon(user.getWon()+1);
-        } else {
-            user.setLost(user.getLost()+1);
         }
         List<String> lines = FileControl.readFile();
         ArrayList<String> linesUpdated = FileControl.updateLines(lines, user);

@@ -34,6 +34,7 @@ public class AchievementsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
         VBox achievementsVbox= createVBoxAchievements();
         paneAchievements.setContent(achievementsVbox);
         URL cssURL = getClass().getResource("/com/edu/espol/proyecto2ped/styles.css");
@@ -51,7 +52,6 @@ public class AchievementsController implements Initializable {
         vbox.setSpacing(10);
         
         vbox.getStyleClass().add("achievement-vbox");
-        System.out.println("CURRENT US: "+ firstWindowController.currentUser);
         LinkedList<Achievement> achievements = firstWindowController.currentUser.getAchievements();
         
         if(achievements.isEmpty()){

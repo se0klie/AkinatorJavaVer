@@ -45,14 +45,25 @@ public class Achievement {
         return name + " - " + description;
     }
     
-    public Achievement findWonAchievement(User us){
+    public static Achievement findWonAchievement(User us,int numQues){
+        updateAchievements();
+        
         int won = us.getWon();
         int lost = us.getLost();
         
-        Achievement achieved = null;
         switch(won){
             case 1:
-                achieved = achievements.get(0);
+                return achievements.get(0);
+            case 5:
+                return achievements.get(1);
+        }
+        if(lost==1){
+            return achievements.get(2);
+            
+        }
+        
+        if(numQues<=5){
+            return achievements.get(3);
         }
         return null;
     }

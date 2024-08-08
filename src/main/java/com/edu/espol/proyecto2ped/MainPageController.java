@@ -1,6 +1,7 @@
 package com.edu.espol.proyecto2ped;
 
 
+import ClassLists.Achievement;
 import ClassLists.FileControl;
 import ClassLists.Node;
 import ClassLists.SearchTree;
@@ -59,7 +60,7 @@ public class MainPageController implements Initializable{
     private int actualNumQues = 0;
     private int maxQuestions;
     private List<String> playerAnswers = new LinkedList<>(); //Sirve para guardar todas las respuestas del usuario
-
+    private boolean hasGuessed;
     private GameFacade game = new GameFacade();
     public static Queue<String> queueQuestions = null;
     public static Map<String,List<String>> answers = null;
@@ -67,6 +68,7 @@ public class MainPageController implements Initializable{
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        System.out.println("USER: " + firstWindowController.currentUser.toString());
         initializeQuestionVBox();
         Image image = new Image(getClass().getResource("/genie.png").toExternalForm());
         queueQuestions = FileControl.readLinesFromZip("Archive.zip","questions.txt");
@@ -116,6 +118,11 @@ public class MainPageController implements Initializable{
 
     //METODO PARA MOSTRAR LAS PREGUNTAS
     private void showQuestion() {
+        if(actualNumQues>=maxQuestions/2-1){
+            Image img = new Image(getClass().getResource("/genieMad.png").toExternalForm());
+            genieImage.setImage(img);
+        }
+        
         if(game.validateIfValidNode(currentNode)){
             if(currentNode!=null && actualNumQues<maxQuestions){ //VALIDACION DE QUE NO SEA NULL Y QUE EL NUMERO ACTUAL DE LA PREGUNTA NO SOBREPASE EL NUMERO INGREASDO DEL USUARIO
             
@@ -166,18 +173,56 @@ public class MainPageController implements Initializable{
             results();
         }
     }
-    
+    //solo queria poner estas lineas en 1 mismo metodo, basicamente es para ver si el animal adivinado es correcto o no
+    private void validateAch(){
+        if(firstWindowController.currentUser!=null){
+            Achievement ach = Achievement.findWonAchievement(firstWindowController.currentUser, actualNumQues);
+            if(ach!=null){
+                firstWindowController.currentUser.addAchievement(ach);
+            }
+            FileControl.editUser(firstWindowController.currentUser);
+        }
+    }
     private void setResultsVBox(String animal){
         vboxDisplay.getChildren().clear();
         Label showAnimal = new Label("El animal en el que estás pensando es...");
         showAnimal.getStyleClass().add("vboxQuestions");
-        Label animal2 = new Label(animal);
+        Label animal2 = new Label(animal+"... ¿estoy en lo correcto?");
         animal2.getStyleClass().add("vboxQuestions");
-        vboxDisplay.getChildren().addAll(showAnimal,animal2);
-        addButtons();
+        
+        Button guessed = new Button();
+        guessed.setText("¡Ese pensé!");
+        guessed.setWrapText(true);
+        guessed.getStyleClass().add("noButtoon");
+        guessed.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
+            System.out.println("clicked");
+            firstWindowController.currentUser.changeScore(true);
+            validateAch();
+            addButtons();
+        });
+        
+        Button noGuessed = new Button();
+        noGuessed.getStyleClass().add("noButtoon");
+        noGuessed.setWrapText(true);
+        noGuessed.setText("No es ese...");
+        noGuessed.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            firstWindowController.currentUser.changeScore(false);
+            loserVBox();
+        });
+        HBox box = new HBox();
+        box.getChildren().addAll(guessed,noGuessed);
+        vboxDisplay.getChildren().addAll(showAnimal,animal2,box);
     }
     
-    
+    private void loserVBox(){
+        vboxDisplay.getChildren().clear();
+        Label l1 = new Label("No pude adivinar el animal que pensaste...¿Qué hacemos ahora?");
+        l1.getStyleClass().add("vboxQuestions");
+        validateAch();
+        vboxDisplay.getChildren().add(l1);
+        addButtons();
+        
+    }
     private void initializeQuestionVBox(){
         vboxDisplay.getChildren().clear();
         vboxQuestions.getStyleClass().add("vboxQuestions");
@@ -207,16 +252,6 @@ public class MainPageController implements Initializable{
     //Metodo para volver al fxml de firstPage y reiniciar el juego
     private void goToFirstPage(Event event) throws IOException {
         try {
-            /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/firstPage.fxml"));
-            Parent firstPageRoot = loader.load();
-            Scene scene = genieImage.getScene();
-            if (scene != null) {
-                Stage stage = (Stage) scene.getWindow();
-                stage.setScene(new Scene(firstPageRoot));
-                stage.show();
-            }
-            firstWindowController firstWindowController = loader.getController();
-            firstWindowController.initializeGame();*/
             
             Stage currentStage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             currentStage.close();
@@ -240,10 +275,13 @@ public class MainPageController implements Initializable{
     }
     
     public void addButtons(){
+        hboxButtons.getChildren().clear();
         HBox buttons = new HBox();
         Button replay = new Button("Jugar de nuevo");
         replay.getStyleClass().add("noButtoon");
-        System.out.println("get global us: "+firstWindowController.getGlobalUser());
+        
+        
+//        System.out.println("get global us: "+firstWindowController.getGlobalUser());
         replay.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->{
             try {
                 if (firstWindowController.getGlobalUser() != null) {
@@ -286,21 +324,25 @@ public class MainPageController implements Initializable{
         
         if(animal!=null){ //FOUND ANIMAL
             setResultsVBox(animal);
-            quesLabel.setText("He adivinado a tu animal, estás pensando en: " + possibleAnimals.get(0));
-            FileControl.editUser(firstWindowController.currentUser, true);
+            
+            
         } else if(lost){ //RAN OUT OF QUESTIONS
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
+            firstWindowController.currentUser.changeScore(false);
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
-            FileControl.editUser(firstWindowController.currentUser, false);
         } 
         else{ //ANIMAL DOESNT EXIST
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
+            firstWindowController.currentUser.changeScore(false);
             quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
-            FileControl.editUser(firstWindowController.currentUser, false);
-            
         }
+        
     }
+    
+
+    
 }
+
 

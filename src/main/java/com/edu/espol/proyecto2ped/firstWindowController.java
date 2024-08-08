@@ -145,14 +145,17 @@ public class firstWindowController implements Initializable{
             Scene scene = new Scene(userPage);
             stage.setScene(scene);
             stage.show();*/
+            System.out.println("user exists");
             App.setRoot("userPage");
         }
         else{
             try{
+                
                 currentUser = new User(name_user);
                 currentUser.setPassword(password_user);
-                FileControl.saveUser(currentUser);
+                FileControl.editUser(currentUser);
                 UserPageController.setUser(currentUser);
+                System.out.println("created us: " + currentUser.toString());
                 
                 /*FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/userPage.fxml"));
                 Parent userPage = loader.load();          
