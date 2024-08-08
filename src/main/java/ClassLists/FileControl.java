@@ -85,7 +85,7 @@ public class FileControl {
                     String line;
                     while ((line = br.readLine()) != null) {
                         String[] partes = line.split(" - ");
-                        Achievement newAchieve = new Achievement(partes[0],partes[1]);
+                        Achievement newAchieve = new Achievement(partes[0],partes[1]);;
                         achievements.add(newAchieve);
                     }
                 }

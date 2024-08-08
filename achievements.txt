@@ -1,0 +1,5 @@
+First Correct Guess - Identify the first animal correctly.
+5 Consecutive Correct Guesses - Identify 5 animals in a row correctly.
+First Incorrect Guess - Miss an animal and teach the program a new one.
+Explorer - Teach the program 10 new animals.
+Speedster - Identify an animal within 5 questions.

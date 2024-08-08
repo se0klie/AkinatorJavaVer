@@ -1,0 +1,61 @@
+¿Es mamífero?
+¿Es carnívoro?
+¿Se para en cuatro patas?
+¿Se para en cuatro patas?
+¿Es de clima frio?
+¿Se arrastra?
+¿Es de campo?
+¿Es un ave?
+¿Está en peligro de extinción?
+¿Es veloz?
+ANIMAL
+¿Es un insecto?
+¿Su carne es muy consumida?
+¿Tiene el cuello largo?
+¿Vuela?
+¿Es insecto?
+ANIMAL
+¿Puede ser mascota?
+¿Es el MÁS veloz?
+¿Es acuático?
+¿Es usualmente verde?
+¿Es ave?
+ANIMAL
+¿Es un símbolo español?
+ANIMAL
+ANIMAL
+¿Es de ciudad?
+ANIMAL
+¿Tiene 8 patas?
+¿Viene de varios colores?
+ANIMAL
+¿Es rápido?
+ANIMAL
+ANIMAL
+¿Es grande?
+ANIMAL
+ANIMAL
+ANIMAL
+¿Es de clima frío?
+ANIMAL
+ANIMAL
+ANIMAL
+¿Es negro?
+¿Es de montaña?
+ANIMAL
+¿Tiene alas coloridos?
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL
+¿Es símbolo de EEUU?
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL
+ANIMAL

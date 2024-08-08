@@ -15,8 +15,7 @@ import java.util.Map;
 public class Achievement {
     private String name;
     private String description;
-    private Map<String,Achievement> achievements;
-
+    private static LinkedList<Achievement> achievements = new LinkedList<>();
     public Achievement(){
         
     }
@@ -34,27 +33,27 @@ public class Achievement {
         return description;
     }
 
-    public Map<String,Achievement> getAchievements() {
+    public static LinkedList<Achievement> getAchievements() {
         return achievements;
     }
     
-    public void updateAchievements(){
-        LinkedList<Achievement> achievementsList = FileControl.readAchievements("Archive.zip", "achievements.txt");
-        Iterator<Achievement> itAch = achievementsList.iterator();
-        while(itAch.hasNext()){
-            Achievement ach = itAch.next();
-            if(achievements.get(ach.name)==null){
-                achievements.put(ach.name, ach);
-            }
-        }
+    public static void updateAchievements(){
+        achievements = FileControl.readAchievements("Archive.zip", "achievements.txt");
     }
     
     public String toString(){
         return name + " - " + description;
     }
-
-    public Achievement getAchievementByName(String name){
-        return achievements.get(name);
-    }
     
+    public Achievement findWonAchievement(User us){
+        int won = us.getWon();
+        int lost = us.getLost();
+        
+        Achievement achieved = null;
+        switch(won){
+            case 1:
+                achieved = achievements.get(0);
+        }
+        return null;
+    }
 }

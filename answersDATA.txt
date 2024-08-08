@@ -1,0 +1,34 @@
+Oso-polar si si si si si
+Husky-Siberiano si si si si no si
+Lobo si si si si no no si
+Lince si si si si no no no
+Cheetah si si si no si si
+Puma si si si no si no
+Hipopótamo si si si no no si si
+Delfín si si si no no si no
+Gato si si si no no no
+Vaca si no si si si
+Toro si no si si no si
+Jirafa si no si no si
+Salamandra no si si si no si
+Lagarto no si si si no no si
+Caballo-de-mar no si si no no no
+Cocodrilo no si si no si no
+Tiburon no si si no no si si
+Pez-payaso no si si no no si no
+Serpiente no si no si
+Mantis no si no no si no
+Pinguino no si no no no si si
+Aguila no si no no no si no
+Tiburon no si no no no no
+Pollo no no no si no
+Lagarto no no si no no
+Cuervo no no no si si si si
+Pajaro-carpintero no no no si si si no
+Aguila no no no si si no si si
+Halcon no no no si si no si no
+Pajaro no no no si si no no
+Araña no no no no si si
+Mariposa no no no no si no si
+Hormiga no no no no si no no
+Pez no no no no no si
