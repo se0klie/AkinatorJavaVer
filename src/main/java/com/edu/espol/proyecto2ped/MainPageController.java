@@ -209,9 +209,9 @@ public class MainPageController implements Initializable{
             firstWindowController.currentUser.changeScore(false);
             loserVBox();
         });
-        HBox box = new HBox();
-        box.getChildren().addAll(guessed,noGuessed);
-        vboxDisplay.getChildren().addAll(showAnimal,animal2,box);
+        hboxButtons = new HBox();
+        hboxButtons.getChildren().addAll(guessed,noGuessed);
+        vboxDisplay.getChildren().addAll(showAnimal,animal2,hboxButtons);
     }
     
     private void loserVBox(){
@@ -307,7 +307,7 @@ public class MainPageController implements Initializable{
         buttons.getChildren().addAll(replay, exit);
         buttons.getStyleClass().add("vboxQuestions");
         
-        vboxDisplay.getChildren().add(buttons);
+        hboxButtons.getChildren().add(buttons);
     }
 
     
