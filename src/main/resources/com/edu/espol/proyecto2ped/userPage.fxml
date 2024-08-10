@@ -6,37 +6,37 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-
-<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.UserPageController">
+<BorderPane styleClass="paneMainPage" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.UserPageController">
    <center>
-      <AnchorPane id="AnchorPane" prefHeight="450.0" prefWidth="600.0">
+      <Pane prefHeight="568.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
-            <Button layoutX="414.0" layoutY="17.0" mnemonicParsing="false" onAction="#showAchievements" prefHeight="59.0" prefWidth="160.0" styleClass="yesButton" text="Logros" />
-            <Button layoutX="414.0" layoutY="87.0" mnemonicParsing="false" onAction="#logOut" prefHeight="59.0" prefWidth="160.0" styleClass="yesButton" text="Cerrar Sesión" />
-            <Text fill="WHITE" layoutX="27.0" layoutY="55.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="label1" text="Estrellas conseguidas: " wrappingWidth="210.0000000000001">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Text>
-            <ImageView fitHeight="259.0" fitWidth="196.0" layoutX="14.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true">
+            <Label alignment="CENTER" layoutX="141.0" layoutY="56.0" prefHeight="25.0" prefWidth="167.0" styleClass="label1" stylesheets="@styles.css" text="Estrellas conseguidas" />
+            <HBox fx:id="starHBox" alignment="CENTER" layoutX="68.0" layoutY="81.0" prefHeight="59.0" prefWidth="307.0" spacing="5.0">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </HBox>
+            <Button layoutX="464.0" layoutY="81.0" mnemonicParsing="false" onAction="#showAchievements" prefHeight="59.0" prefWidth="160.0" styleClass="yesButton" text="Logros" />
+            <Button layoutX="464.0" layoutY="161.0" mnemonicParsing="false" onAction="#logOut" prefHeight="59.0" prefWidth="160.0" styleClass="yesButton" text="Cerrar Sesión" />
+            <ImageView fitHeight="259.0" fitWidth="196.0" layoutX="68.0" layoutY="212.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../../../genie.png" />
                </image>
             </ImageView>
-            <Label fx:id="usernameLabel" layoutX="316.0" layoutY="191.0" prefHeight="24.0" prefWidth="253.0" styleClass="username">
+            <Label fx:id="usernameLabel" layoutX="347.0" layoutY="271.0" prefHeight="24.0" prefWidth="253.0" styleClass="username">
                <font>
                   <Font size="20.0" />
                </font>
             </Label>
-            <VBox alignment="CENTER" layoutX="306.0" layoutY="221.0" prefHeight="148.0" prefWidth="273.0" spacing="5.0">
+            <VBox alignment="CENTER" layoutX="313.0" layoutY="318.0" prefHeight="153.0" prefWidth="320.0" spacing="5.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="273.0" styleClass="label1" text="Ingresa el numero de preguntas a realizar" wrapText="true" />
+                  <Label prefHeight="25.0" prefWidth="297.0" styleClass="label1" text="Ingresa el numero de preguntas a realizar:" wrapText="true" />
                   <TextField fx:id="quesNum" />
                   <Button fx:id="nextButton" mnemonicParsing="false" onMouseClicked="#nextButton" prefHeight="26.0" prefWidth="342.0" styleClass="yesButton" stylesheets="@styles.css" text="Jugar" />
                </children>
@@ -45,6 +45,6 @@
                </padding>
             </VBox>
          </children>
-      </AnchorPane>
+      </Pane>
    </center>
 </BorderPane>

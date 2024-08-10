@@ -54,12 +54,6 @@ public class AchievementsController implements Initializable {
         vbox.getStyleClass().add("achievement-vbox");
         LinkedList<Achievement> achievements = firstWindowController.currentUser.getAchievements();
         
-        if(achievements.isEmpty()){
-            Alert a = new Alert(AlertType.INFORMATION);
-            a.setContentText("No cuentas con logros. Comienza a jugar para avanzar.");
-            a.show();
-        }
-        
         for(Achievement achievement: achievements){
             Image image = new Image(getClass().getResource("/star.png").toExternalForm());
             ImageView img = new ImageView(image);
@@ -68,7 +62,6 @@ public class AchievementsController implements Initializable {
             Label achievementLabel = new Label(achievement.getName()+" - "+achievement.getDescription());
             achievementLabel.getStyleClass().add("achievement-label");
             vbox.getChildren().addAll(img,achievementLabel);
-            
         }
         vbox.setAlignment(Pos.CENTER);
         return vbox;

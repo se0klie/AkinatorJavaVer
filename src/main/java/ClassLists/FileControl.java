@@ -213,13 +213,9 @@ public class FileControl {
     }
     
     public static void editUser(User user){
-        if(user == null) {
-            return;
-        }
         List<String> lines = FileControl.readFile();
         ArrayList<String> linesUpdated = FileControl.updateLines(lines, user);
         FileControl.writeFile(linesUpdated);
-        
     }
     
 }

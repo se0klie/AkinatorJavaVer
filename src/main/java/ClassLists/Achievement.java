@@ -7,6 +7,7 @@ package ClassLists;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  *
@@ -44,27 +45,49 @@ public class Achievement {
     public String toString(){
         return name + " - " + description;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Achievement other = (Achievement) obj;
+        if (!Objects.equals(this.name, other.name)) {
+            return false;
+        }
+        return Objects.equals(this.description, other.description);
+    }
     
-    public static Achievement findWonAchievement(User us,int numQues){
+    public static LinkedList<Achievement> findWonAchievement(User us,int numQues){
         updateAchievements();
+        LinkedList<Achievement> achievementsWon = new LinkedList<>(); // lista para poder retornar más de un logro
         
         int won = us.getWon();
         int lost = us.getLost();
         
         switch(won){
             case 1:
-                return achievements.get(0);
+                achievementsWon.add(achievements.get(0));
+                break;
             case 5:
-                return achievements.get(1);
+                achievementsWon.add(achievements.get(1));
+                break;
+            case 10:
+                achievementsWon.add(achievements.get(4));
+                break;
         }
         if(lost==1){
-            return achievements.get(2);
-            
+            achievementsWon.add(achievements.get(2));
         }
-        
         if(numQues<=5){
-            return achievements.get(3);
+            achievementsWon.add(achievements.get(3));
         }
-        return null;
+        return achievementsWon;
     }
 }

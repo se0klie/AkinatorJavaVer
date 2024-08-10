@@ -9,10 +9,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.Animation;
+import javafx.animation.Interpolator;
+import javafx.animation.Transition;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -22,17 +28,23 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class firstWindowController implements Initializable{
-
+    
+    @FXML
+    private StackPane stackPane;
     @FXML
     private Pane pane;
     @FXML
@@ -65,13 +77,46 @@ public class firstWindowController implements Initializable{
             System.out.println("Error al cargar el logo: " + e.getMessage());
         }
         
+        createContent();
         initializeGame(); //Extraído del método goToFirstPage()
+    }
+    
+    private void createContent() {
+        ObjectProperty<Integer> backgroundOffsetProperty = new SimpleObjectProperty<>(0);
+
+        ImageView background = new ImageView(this.getClass().getResource("/img/placeholder.jpg").toExternalForm());
+        background.setViewport(new Rectangle2D(0, 0, 700, 568));
+
+        backgroundOffsetProperty.addListener(observable -> {
+            background.setViewport(new Rectangle2D(backgroundOffsetProperty.get(), 0, stackPane.widthProperty().doubleValue(), stackPane.heightProperty().doubleValue()));
+        });
+        
+        background.fitWidthProperty().bind(stackPane.widthProperty());
+        background.fitHeightProperty().bind(stackPane.heightProperty());
+        createBackgroundAnimation(backgroundOffsetProperty).play();
+        stackPane.getChildren().add(0, background); // se añade al inicio
+    }
+
+    private Animation createBackgroundAnimation(ObjectProperty<Integer> backgroundOffsetProperty) {
+        Animation animation = new Transition() {
+            {
+                setCycleDuration(Duration.millis(36000));
+                setInterpolator(Interpolator.LINEAR);
+            }
+
+            protected void interpolate(double frac) {
+                int backgroundOffset = (int) ((frac * 8896 * 0.5)) % 8896;
+                backgroundOffsetProperty.set(backgroundOffset);
+            }
+        };
+        animation.setCycleCount(Animation.INDEFINITE);
+        return animation;
     }
     
     //Se vuelve a leer el archivo y cargar las preguntas con este método
     
     public void initializeGame(){
-        MainPageController.queueQuestions= FileControl.readLinesFromZip("Archive.zip","questionsDATA.txt");
+        MainPageController.queueQuestions= FileControl.readLinesFromZip("Archive.zip","questions.txt");
         System.out.println("Preguntas cargadas: " + MainPageController.queueQuestions.size());
     }
     

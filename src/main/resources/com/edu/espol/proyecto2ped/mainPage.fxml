@@ -10,7 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.MainPageController">
+
+<BorderPane styleClass="paneMainPage" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.MainPageController">
    <center>
       <Pane fx:id="paneMainPage" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="851.0" styleClass="paneMainPage" stylesheets="@styles.css">
          <children>

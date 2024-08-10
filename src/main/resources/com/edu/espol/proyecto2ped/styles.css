@@ -60,7 +60,7 @@
 }
 
 /* Estilo para el fondo del pane */
-.pane, .paneMainPage, BorderPane {
+.paneMainPage {
     -fx-background-color: #444b59;
 }
 
@@ -111,31 +111,32 @@
 
 /* Estilo para logros */
 .achievement-vbox {
-    padding: 20px;
-    background-color: #f5f5f5;
-    border: 2px solid #d4af37;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    -fx-padding: 20px;
+    -fx-background-color: #f5f5f5;
+    -fx-border: 2px solid #d4af37;
+    -fx-border-radius: 10px;
+    -fx-box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .achievement-label {
-    font-family: "Verdana", sans-serif;
-    font-size: 16px;
-    color: #333;
-    padding: 5px 10px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    -fx-font-family: "Verdana", sans-serif;
+    -fx-font-size: 16px;
+    -fx-color: #333;
+    -fx-padding: 5px 10px;
+    -fx-background-color: #fff;
+    -fx-border: 1px solid #ccc;
+    -fx-border-radius: 5px;
+    -fx-margin-bottom: 5px;
+    -fx-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .achievement-label:hover {
-    background-color: #f0e68c;
-    cursor: pointer;
+    -fx-background-color: #f0e68c;
+    -fx-cursor: pointer;
 }
 
 /* Estilo para Label */
 .label1 {
-    -fx-text-fill: #e0e0e0; /* Color claro */
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 16px;
 }

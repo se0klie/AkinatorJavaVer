@@ -4,10 +4,12 @@
  */
 package com.edu.espol.proyecto2ped;
 
+import ClassLists.Achievement;
 import ClassLists.User;
 import static com.edu.espol.proyecto2ped.firstWindowController.maxOfQues;
 import java.io.IOException;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -21,7 +23,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 /**
@@ -32,12 +37,16 @@ import javafx.stage.Stage;
 public class UserPageController implements Initializable {
 
     @FXML
+    private HBox starHBox;
+    @FXML
     private TextField quesNum;
     @FXML
     private Button nextButton;
     @FXML
     private Label usernameLabel;
     private static User user=null;
+    private LinkedList<Achievement> achievements;
+    private boolean achievementCheck;
 
     /**
      * Initializes the controller class.
@@ -46,6 +55,11 @@ public class UserPageController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         usernameLabel.setText(firstWindowController.currentUser.getName());
         usernameLabel.setAlignment(Pos.CENTER);
+        achievements = firstWindowController.currentUser.getAchievements();
+        achievementCheck = !achievements.isEmpty();
+        if (achievementCheck) {
+            showStars();
+        }
     }
     
     public static void setUser(User us){
@@ -94,13 +108,32 @@ public class UserPageController implements Initializable {
 
     @FXML
     private void showAchievements(ActionEvent event) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/achievements.fxml"));
-        Parent root = loader.load();
-        Scene scene = new Scene(root);
-        Stage newStage = new Stage();
-        newStage.setTitle("Achievements");
-        newStage.setScene(scene);
-        newStage.show();
+        
+        // Para que no se muestre la pantalla de logros si el usuario no tiene.
+        if(!achievementCheck){
+            Alert a = new Alert(Alert.AlertType.INFORMATION);
+            a.setContentText("No cuentas con logros. Comienza a jugar para avanzar.");
+            a.show();
+        } else {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/edu/espol/proyecto2ped/achievements.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage newStage = new Stage();
+            newStage.setTitle("Achievements");
+            newStage.setScene(scene);
+            newStage.show();
+        }
+    }
+    
+    private void showStars() {
+        starHBox.getChildren().clear();
+        for(Achievement achievement: achievements){
+            Image image = new Image(getClass().getResource("/star.png").toExternalForm());
+            ImageView img = new ImageView(image);
+            img.setFitHeight(60);
+            img.setFitWidth(60);
+            starHBox.getChildren().add(img);
+        }
     }
     
     @FXML

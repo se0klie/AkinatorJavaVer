@@ -7,53 +7,55 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 
-<BorderPane styleClass="pane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.firstWindowController">
-   <center>
-      <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="450.0" prefWidth="600.0">
-         <children>
-            <Label alignment="CENTER" layoutX="134.0" layoutY="15.0" prefHeight="53.0" prefWidth="330.0" styleClass="nameGame" text="Genie's adivinator">
-               <font>
-                  <Font name="Al Bayan Bold" size="28.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="165.0" layoutY="41.0" prefHeight="53.0" prefWidth="268.0" styleClass="label1" text="Adivino el animal que estás pensando.">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Label>
-            <Label alignment="CENTER" layoutX="155.0" layoutY="235.0" prefHeight="25.0" prefWidth="290.0" styleClass="label1" text="-------------O INICIA SESIÓN-------------">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Label>
-            <VBox alignment="CENTER" layoutX="163.0" layoutY="84.0" prefHeight="97.0" prefWidth="273.0" spacing="5.0">
+<StackPane fx:id="stackPane" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.firstWindowController">
+   <children>
+      <BorderPane fx:id="borderPane" styleClass="pane">
+         <center>
+            <Pane fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="700.0">
                <children>
-                  <Label prefHeight="17.0" prefWidth="273.0" styleClass="label1" text="Ingresa el numero de preguntas a realizar" wrapText="true" />
-                  <TextField fx:id="quesNum" />
-                  <Button fx:id="sesionInvited" mnemonicParsing="false" onAction="#playAsGuest" prefHeight="25.0" prefWidth="253.0" styleClass="yesButton" text="Jugar como invitado" />
+                  <Label alignment="CENTER" layoutX="180.0" layoutY="14.0" prefHeight="53.0" prefWidth="330.0" styleClass="nameGame" text="Genie's adivinator">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="200.0" layoutY="48.0" prefHeight="53.0" prefWidth="294.0" styleClass="label1" text="Adivino el animal que estás pensando.">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="193.0" layoutY="287.0" prefHeight="25.0" prefWidth="308.0" styleClass="label1" text="-------------O INICIA SESIÓN-------------">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Label>
+                  <VBox layoutX="186.0" layoutY="116.0" prefHeight="153.0" prefWidth="334.0" spacing="5.0">
+                     <children>
+                        <Label prefHeight="25.0" prefWidth="321.0" styleClass="label1" text="Ingresa el numero de preguntas a realizar:" wrapText="true" />
+                        <TextField fx:id="quesNum" />
+                        <Button fx:id="sesionInvited" mnemonicParsing="false" onAction="#playAsGuest" prefHeight="59.0" prefWidth="334.0" styleClass="yesButton" text="Jugar como invitado" />
+                     </children>
+                  </VBox>
+                  <VBox layoutX="186.0" layoutY="328.0" prefHeight="81.0" prefWidth="334.0">
+                     <children>
+                        <Label contentDisplay="TOP" styleClass="label1" text="Ingresa tu usuario:" />
+                        <TextField fx:id="name" promptText="Usuario" />
+                        <Label styleClass="label1" text="Ingresa tu contraseña: " />
+                        <PasswordField fx:id="passwordUser" promptText="Contraseña" />
+                        <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#goToProfile" prefHeight="59.0" prefWidth="334.0" styleClass="yesButton" text="Iniciar Sesión">
+                           <VBox.margin>
+                              <Insets top="5.0" />
+                           </VBox.margin>
+                        </Button>
+                     </children>
+                  </VBox>
                </children>
-               <padding>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding>
-            </VBox>
-            <VBox layoutX="173.0" layoutY="260.0" prefHeight="81.0" prefWidth="255.0">
-               <children>
-                  <Label contentDisplay="TOP" styleClass="label1" text="Ingresa tu usuario:" />
-                  <TextField fx:id="name" />
-                  <Label styleClass="label1" text="Ingresa tu contraseña: " />
-                  <PasswordField fx:id="passwordUser" />
-                  <Button fx:id="buttonLogin" mnemonicParsing="false" onAction="#goToProfile" prefHeight="25.0" prefWidth="300.0" styleClass="yesButton" text="Iniciar Sesión">
-                     <VBox.margin>
-                        <Insets top="5.0" />
-                     </VBox.margin>
-                  </Button>
-               </children>
-            </VBox>
-         </children>
-      </Pane>
-   </center>
-</BorderPane>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</StackPane>

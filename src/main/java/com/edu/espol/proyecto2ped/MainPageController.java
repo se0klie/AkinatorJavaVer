@@ -183,9 +183,11 @@ public class MainPageController implements Initializable{
     //solo queria poner estas lineas en 1 mismo metodo, basicamente es para ver si el animal adivinado es correcto o no
     private void validateAch(){
         if(firstWindowController.currentUser!=null){
-            Achievement ach = Achievement.findWonAchievement(firstWindowController.currentUser, actualNumQues);
-            if(ach!=null){
-                firstWindowController.currentUser.addAchievement(ach);
+            LinkedList<Achievement> ach = Achievement.findWonAchievement(firstWindowController.currentUser, actualNumQues);
+            if(!ach.isEmpty()){
+                for (Achievement ac : ach) {
+                    firstWindowController.currentUser.addAchievement(ac);
+                }
             }
             FileControl.editUser(firstWindowController.currentUser);
         }
@@ -347,6 +349,7 @@ public class MainPageController implements Initializable{
                 firstWindowController.currentUser.changeScore(false);
             }
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
+            validateAch();
             addButtons();
         } 
         else{ //ANIMAL DOESNT EXIST
@@ -355,6 +358,7 @@ public class MainPageController implements Initializable{
                 firstWindowController.currentUser.changeScore(false);
             }
             quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
+            validateAch();
             addButtons();
         }
         
