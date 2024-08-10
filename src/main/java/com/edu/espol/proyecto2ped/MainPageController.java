@@ -68,13 +68,15 @@ public class MainPageController implements Initializable{
         
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("USER: " + firstWindowController.currentUser.toString());
+        if (firstWindowController.currentUser != null) {
+            System.out.println("USER: " + firstWindowController.currentUser.toString());
+        } else {
+            System.out.println("PLAYING AS GUEST");
+        }
         initializeQuestionVBox();
         Image image = new Image(getClass().getResource("/genie.png").toExternalForm());
         queueQuestions = FileControl.readLinesFromZip("Archive.zip","questions.txt");
         genieImage.setImage(image);
-        setLabel(quesLabel);
-        setLabel(numberQuesLabel);
         try {
             answers = FileControl.readAnswersFromZip("Archive.zip","answersDATA.txt");
             startGame();
@@ -82,7 +84,6 @@ public class MainPageController implements Initializable{
             System.out.println("Couldn't start the game.");
             ex.printStackTrace();
         }
- 
     }
     
     private void setLabel(Label label) {
@@ -92,6 +93,12 @@ public class MainPageController implements Initializable{
         label.setMaxWidth(Double.MAX_VALUE);
         label.setTextAlignment(TextAlignment.CENTER);
         label.setMinHeight(Region.USE_PREF_SIZE);
+    }
+    
+    private void setHBox(HBox hbox) {
+        hbox.setAlignment(Pos.CENTER);
+        hbox.setPadding(new Insets(10));
+        hbox.setSpacing(10);
     }
     
     public void startGame() throws IOException {
@@ -185,20 +192,22 @@ public class MainPageController implements Initializable{
     }
     private void setResultsVBox(String animal){
         vboxDisplay.getChildren().clear();
-        Label showAnimal = new Label("El animal en el que estás pensando es...");
+        
+        Label showAnimal = new Label("El animal en el que estás pensando es...\n"+animal+"... ¿estoy en lo correcto?");
+        setLabel(showAnimal);
         showAnimal.getStyleClass().add("vboxQuestions");
-        Label animal2 = new Label(animal+"... ¿estoy en lo correcto?");
-        animal2.getStyleClass().add("vboxQuestions");
         
         Button guessed = new Button();
         guessed.setText("¡Ese pensé!");
         guessed.setWrapText(true);
-        guessed.getStyleClass().add("noButtoon");
+        guessed.getStyleClass().add("yesButton");
         guessed.addEventHandler(MouseEvent.MOUSE_CLICKED,event -> {
             System.out.println("clicked");
-            firstWindowController.currentUser.changeScore(true);
+            if(firstWindowController.currentUser != null) {
+                firstWindowController.currentUser.changeScore(true);
+            }
             validateAch();
-            addButtons();
+            winnerVBox(animal);
         });
         
         Button noGuessed = new Button();
@@ -206,28 +215,43 @@ public class MainPageController implements Initializable{
         noGuessed.setWrapText(true);
         noGuessed.setText("No es ese...");
         noGuessed.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            firstWindowController.currentUser.changeScore(false);
+            if (firstWindowController.currentUser != null) {
+                firstWindowController.currentUser.changeScore(false);
+            }
+            validateAch();
             loserVBox();
         });
-        hboxButtons = new HBox();
+        
+        hboxButtons.getChildren().clear();
         hboxButtons.getChildren().addAll(guessed,noGuessed);
-        vboxDisplay.getChildren().addAll(showAnimal,animal2,hboxButtons);
+        vboxDisplay.getChildren().addAll(showAnimal, hboxButtons);
+    }
+    
+    private void winnerVBox(String animal) {
+        vboxDisplay.getChildren().clear();
+        Label l1 = new Label("Tu animal fue...\n"+animal);
+        setLabel(l1);
+        l1.getStyleClass().add("vboxQuestions");
+        addButtons();
+        vboxDisplay.getChildren().addAll(l1, hboxButtons);
     }
     
     private void loserVBox(){
         vboxDisplay.getChildren().clear();
         Label l1 = new Label("No pude adivinar el animal que pensaste...¿Qué hacemos ahora?");
+        setLabel(l1);
         l1.getStyleClass().add("vboxQuestions");
-        validateAch();
-        vboxDisplay.getChildren().add(l1);
         addButtons();
-        
+        vboxDisplay.getChildren().addAll(l1, hboxButtons);
     }
+    
     private void initializeQuestionVBox(){
         vboxDisplay.getChildren().clear();
         vboxQuestions.getStyleClass().add("vboxQuestions");
         numberQuesLabel =  new Label();
         quesLabel = new Label();
+        setLabel(quesLabel);
+        setLabel(numberQuesLabel);
         
         yesButton = new Button("Sí");
         yesButton.getStyleClass().add("yesButton");
@@ -242,8 +266,7 @@ public class MainPageController implements Initializable{
         });
         
         vboxQuestions.getChildren().addAll(numberQuesLabel,quesLabel);
-        hboxButtons.setAlignment(Pos.CENTER);
-        hboxButtons.setPadding((new Insets(10)));
+        setHBox(hboxButtons);
         hboxButtons.getChildren().addAll(yesButton, noButtoon);
         vboxDisplay.getChildren().addAll(vboxQuestions, hboxButtons);
         
@@ -275,13 +298,10 @@ public class MainPageController implements Initializable{
     }
     
     public void addButtons(){
-        hboxButtons.getChildren().clear();
-        HBox buttons = new HBox();
         Button replay = new Button("Jugar de nuevo");
         replay.getStyleClass().add("noButtoon");
         
-        
-//        System.out.println("get global us: "+firstWindowController.getGlobalUser());
+        //System.out.println("get global us: "+firstWindowController.getGlobalUser());
         replay.addEventHandler(MouseEvent.MOUSE_CLICKED,event ->{
             try {
                 if (firstWindowController.getGlobalUser() != null) {
@@ -293,31 +313,26 @@ public class MainPageController implements Initializable{
                 ex.printStackTrace();
             }
         });
+        
         Button exit = new Button("Salir");
         exit.getStyleClass().add("noButtoon");
+        
         exit.addEventHandler(MouseEvent.MOUSE_CLICKED,event->{
             Scene scene = genieImage.getScene();
             Stage stage = (Stage) scene.getWindow();
             stage.close();
             
         });
-        buttons.setAlignment(Pos.CENTER);
-        buttons.setPadding(new Insets(10));
-        buttons.setSpacing(10);
-        buttons.getChildren().addAll(replay, exit);
-        buttons.getStyleClass().add("vboxQuestions");
         
-        hboxButtons.getChildren().add(buttons);
+        hboxButtons.getChildren().clear();
+        hboxButtons.getChildren().addAll(replay, exit);
     }
 
-    
-    
     private void results(){
         
         yesButton.setVisible(false);
         noButtoon.setVisible(false);
         vboxQuestions.getChildren().remove(numberQuesLabel);
-        vboxDisplay.getChildren().remove(hboxButtons);
         
         String animal = game.findAnimalFromUsersAnswers(answers, playerAnswers);
         List<String> possibleAnimals = game.findListAnimals(answers, playerAnswers);
@@ -328,13 +343,17 @@ public class MainPageController implements Initializable{
             
         } else if(lost){ //RAN OUT OF QUESTIONS
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
-            firstWindowController.currentUser.changeScore(false);
+            if(firstWindowController.currentUser != null) {
+                firstWindowController.currentUser.changeScore(false);
+            }
             quesLabel.setText("Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
         } 
         else{ //ANIMAL DOESNT EXIST
             quesLabel.setTextAlignment(TextAlignment.JUSTIFY);
-            firstWindowController.currentUser.changeScore(false);
+            if(firstWindowController.currentUser != null) {
+                firstWindowController.currentUser.changeScore(false);
+            }
             quesLabel.setText("El animal ingresado no existe. Puedes estar pensando en uno de estos: "+String.join(", ", possibleAnimals));
             addButtons();
         }
@@ -344,5 +363,3 @@ public class MainPageController implements Initializable{
 
     
 }
-
-
