@@ -64,12 +64,11 @@ public class Achievement {
         return Objects.equals(this.description, other.description);
     }
     
-    public static LinkedList<Achievement> findWonAchievement(User us,int numQues){
+    public static LinkedList<Achievement> findWonAchievement(User us, int numQues, boolean lost){
         updateAchievements();
         LinkedList<Achievement> achievementsWon = new LinkedList<>(); // lista para poder retornar más de un logro
         
         int won = us.getWon();
-        int lost = us.getLost();
         
         switch(won){
             case 1:
@@ -82,10 +81,10 @@ public class Achievement {
                 achievementsWon.add(achievements.get(4));
                 break;
         }
-        if(lost==1){
+        if(lost){
             achievementsWon.add(achievements.get(2));
         }
-        if(numQues<=5){
+        if(numQues<=5 && !lost){
             achievementsWon.add(achievements.get(3));
         }
         return achievementsWon;

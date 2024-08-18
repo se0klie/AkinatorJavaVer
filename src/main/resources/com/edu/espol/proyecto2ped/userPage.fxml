@@ -12,9 +12,10 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+
 <BorderPane styleClass="paneMainPage" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.edu.espol.proyecto2ped.UserPageController">
    <center>
-      <Pane prefHeight="568.0" prefWidth="700.0" BorderPane.alignment="CENTER">
+      <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="568.0" prefWidth="700.0" BorderPane.alignment="CENTER">
          <children>
             <Label alignment="CENTER" layoutX="141.0" layoutY="56.0" prefHeight="25.0" prefWidth="167.0" styleClass="label1" stylesheets="@styles.css" text="Estrellas conseguidas" />
             <HBox fx:id="starHBox" alignment="CENTER" layoutX="68.0" layoutY="81.0" prefHeight="59.0" prefWidth="307.0" spacing="5.0">

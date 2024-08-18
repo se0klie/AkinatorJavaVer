@@ -140,3 +140,9 @@
     -fx-text-fill: #FFFFFF;
     -fx-font-size: 16px;
 }
+
+
+.scrollPane {
+    -fx-border-color: #444b59;
+    -fx-border-width: 10px;
+}

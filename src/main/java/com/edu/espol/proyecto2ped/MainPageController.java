@@ -183,7 +183,7 @@ public class MainPageController implements Initializable{
     //solo queria poner estas lineas en 1 mismo metodo, basicamente es para ver si el animal adivinado es correcto o no
     private void validateAch(){
         if(firstWindowController.currentUser!=null){
-            LinkedList<Achievement> ach = Achievement.findWonAchievement(firstWindowController.currentUser, actualNumQues);
+            LinkedList<Achievement> ach = Achievement.findWonAchievement(firstWindowController.currentUser, actualNumQues, lost);
             if(!ach.isEmpty()){
                 for (Achievement ac : ach) {
                     firstWindowController.currentUser.addAchievement(ac);
